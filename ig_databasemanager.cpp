@@ -1,5 +1,6 @@
 #include "ig_databasemanager.h"
 #include "ig_inventorytable.h"
+#include "ig_slot.h"
 
 
 IG_DataBaseManager::IG_DataBaseManager(){}
@@ -11,6 +12,36 @@ void IG_DataBaseManager::connectInventory(IG_InventoryTable *pInventory)
 	connect( pInventory, pInventory->slotChanged, this, query_change_slot);
 }
 
+void IG_DataBaseManager::addItemInDB(Fruit type, QString name, QString img_path, QString snd_path)
+{
+	QString query_add_item = "INSERT INTO items (enum, name, img_path, snd_path) "
+							 "VALUES (%1, '%2', '%3', '%4')";
+	QSqlQuery SqlQuery = QSqlQuery( __data_base );
+	SqlQuery.exec( query_add_item.arg(static_cast<int>(type)).arg(name).arg(img_path).arg(snd_path) );
+}
+
+QString IG_DataBaseManager::imgPathByType(Fruit type)
+{
+	QString query = "SELECT * FROM items WHERE enum = %1";
+	QSqlQuery SqlQuery = QSqlQuery( __data_base );
+	SqlQuery.exec( query.arg( static_cast<int>(type) ) );
+	if (SqlQuery.next())
+		return SqlQuery.record().field("img_path").value().toString();
+	else
+		return QString("");
+}
+
+QString IG_DataBaseManager::sndPathByType(Fruit type)
+{
+	QString query = "SELECT * FROM items WHERE enum = %1";
+	QSqlQuery SqlQuery = QSqlQuery( __data_base );
+	SqlQuery.exec( query.arg( static_cast<int>(type) ) );
+	if (SqlQuery.next())
+		return SqlQuery.record().field("snd_path").value().toString();
+	else
+		return QString("");
+}
+
 void IG_DataBaseManager::query_change_slot(IG_Slot *pSlot)
 {
 	QString t_name = pSlot->getParent()->objectName();
@@ -19,7 +50,7 @@ void IG_DataBaseManager::query_change_slot(IG_Slot *pSlot)
 	int row = pSlot->row();
 	int column = pSlot->column();
 
-	QSqlQuery SqlQuery = QSqlQuery( m_DataBase );
+	QSqlQuery SqlQuery = QSqlQuery( __data_base );
 
 	QString query_row = "SELECT * FROM %1 WHERE row_idx = %2 AND column_idx = %3";
 	QString query_update = "UPDATE %1 SET count = %2, item_type = %3 "
@@ -45,33 +76,31 @@ void IG_DataBaseManager::query_create_inventory_table(QString name)
 					"item_type INTEGER NOT NULL,"
 					"FOREIGN KEY (item_type) REFERENCES items(enum))";
 
-	QSqlQuery SqlQuery = QSqlQuery( m_DataBase );
+	QSqlQuery SqlQuery = QSqlQuery( __data_base );
 	SqlQuery.exec( query.arg(name) );
 }
 
 void IG_DataBaseManager::connectSQLiteDB(QString name)
 {
-	m_DataBase = QSqlDatabase::addDatabase("QSQLITE");
-	m_DataBase.setDatabaseName(name);
+	__data_base = QSqlDatabase::addDatabase("QSQLITE");
+	__data_base.setDatabaseName(name);
 
-	if (!m_DataBase.open())
+	if (!__data_base.open())
 	{
 		qDebug() << "Error open database: " << name;
 		return;
 	}
 
-	QSqlQuery query = QSqlQuery( m_DataBase );
+	QSqlQuery query = QSqlQuery( __data_base );
 
 	query.exec(
-				"CREATE TABLE IF NOT EXISTS items ( enum INTEGER PRIMARY KEY AUTOINCREMENT,"
-				"name VARCHAR(20) NOT NULL UNIQUE, img_path VARCHAR(255), img_snd VARCHAR(255) )"
+				"CREATE TABLE IF NOT EXISTS items ( enum INTEGER PRIMARY KEY,"
+				"name VARCHAR(20) NOT NULL UNIQUE, img_path VARCHAR(255), snd_path VARCHAR(255) )"
 				);
-
-	query.exec( "INSERT INTO items (name, img_path) VALUES ('apple', ':/src/images/apple.png')" );
 }
 
 void IG_DataBaseManager::disconnectSQLiteDB()
 {
-	m_DataBase.close();
+	__data_base.close();
 }
 

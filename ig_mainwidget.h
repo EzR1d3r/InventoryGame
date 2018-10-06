@@ -1,7 +1,8 @@
 #pragma once
 #include <QWidget>
 #include <ig_databasemanager.h>
-#include <ig_MainMenu.h>
+
+class IG_MainMenu;
 
 namespace Ui
 {
@@ -20,6 +21,7 @@ public:
 private slots:
 	void on_btnMainMenu_clicked();
 	void new_game();
+	void playSnd(IG_Slot * pSlot);
 private:
 	IG_DataBaseManager db;
 	Ui::IG_MainWidget *ui;

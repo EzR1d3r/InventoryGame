@@ -24,3 +24,9 @@ void IG_MainMenu::on_btnExit_clicked()
 	emit exit_game(0);
 	close();
 }
+
+void IG_MainMenu::closeEvent(QCloseEvent *event)
+{
+	Q_UNUSED(event);
+	emit close_mm(true);
+}

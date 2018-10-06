@@ -1,9 +1,12 @@
 #include <QDebug>
-#include "ig_inventorytable.h"
+#include <QTableWidget>
 #include <QMimeData>
 #include <QDrag>
 #include <QByteArray>
-
+#include <QDropEvent>
+#include <QDragEnterEvent>
+#include "ig_inventorytable.h"
+#include "ig_slot.h"
 
 IG_InventoryTable::IG_InventoryTable(QWidget *parent) : QTableWidget(parent){}
 
@@ -12,7 +15,7 @@ void IG_InventoryTable::mousePressEvent(QMouseEvent *event)
 	IG_Slot * pSource = dynamic_cast<IG_Slot*>(itemAt( event->pos() ));
 	if (event->button() == Qt::MouseButton::RightButton)
 	{
-		pSource->removeItem();
+		pSource->removeLast();
 		return;
 	}
 
@@ -49,7 +52,7 @@ void IG_InventoryTable::dropEvent(QDropEvent *event)
 			const char * data = event->mimeData()->data( "source_slot" ).constData();
 			QStringList r_c = QString( data ).split(" ");
 			IG_Slot * pSourceSlot = pSourceInventory->getSlot( r_c[0].toInt(), r_c[1].toInt());
-			pTargetSlot->getFrom( pSourceSlot );
+			pTargetSlot->takeFrom( pSourceSlot );
 		}
 	}
 }

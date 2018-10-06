@@ -1,5 +1,9 @@
 <RCC>
     <qresource prefix="/src">
         <file>images/apple.png</file>
+        <file>snds/apple.wav</file>
+        <file>images/banana.png</file>
+        <file>snds/banana.wav</file>
+        <file>images/qiwi.png</file>
     </qresource>
 </RCC>

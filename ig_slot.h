@@ -8,16 +8,19 @@ class IG_Slot : public QTableWidgetItem
 {
 public:
 	IG_Slot(IG_InventoryTable * parent = 0);
+
 	inline unsigned int getCount () const {return __items.count();}
 	inline Fruit getType() const {return __type;}
-	inline QVector<Item> getItems(){return __items;}
-	inline void clear();
-	void getFrom (IG_Slot *pSlot );
+	inline QVector<Item> getItems() const {return __items;}
+	inline IG_InventoryTable * getParent() const {return __parent;}
+	inline bool isInfinite() const { return __infinite;}
+
+	void takeFrom (IG_Slot *pSlot );
 	inline void setInfinite(bool infinite){ __infinite = infinite;}
-	inline bool isInfinite(){ return __infinite;}
 	void addItem(const Item& item);
-	inline IG_InventoryTable * getParent(){return __parent;}
-	void removeItem();
+	void addItem(Fruit type, QString img_path, QString snd_path);
+	void removeLast();
+	void clear();
 private slots:
 	void update();
 private:

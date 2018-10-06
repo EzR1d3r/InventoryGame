@@ -1,6 +1,5 @@
-#include "ig_inventorytable.h"
 #include "ig_slot.h"
-
+#include "ig_inventorytable.h"
 
 IG_Slot::IG_Slot( IG_InventoryTable * parent ):
 	__type(Fruit::None), __infinite(false), __parent (parent)
@@ -15,7 +14,7 @@ void IG_Slot::clear()
 	update();
 }
 
-void IG_Slot::getFrom(IG_Slot *pSlot)
+void IG_Slot::takeFrom(IG_Slot *pSlot)
 {
 	if (pSlot == this) return;
 	if ( __type == Fruit::None)
@@ -46,10 +45,19 @@ void IG_Slot::addItem(const Item &item)
 	update();
 }
 
-void IG_Slot::removeItem()
+void IG_Slot::addItem(Fruit type, QString img_path, QString snd_path)
+{
+	Item item(type, img_path, snd_path);
+	addItem(item);
+}
+
+void IG_Slot::removeLast()
 {
 	if (!__items.count() || __infinite) return;
 	__items.removeLast();
+	emit __parent->deleteOneItem(this);
+	//по идее слот должен свой сигнал эмитить,
+	//таблица ловить и эмитить свой, для краткости сразу через __parent
 	update();
 }
 

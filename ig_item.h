@@ -7,7 +7,8 @@ enum class Fruit
 {
 	None,
 	Apple,
-	Banana
+	Banana,
+	Qiwi
 };
 
 class Item
@@ -15,11 +16,12 @@ class Item
 	public:
 		Item(){}
 		Item (Fruit type, QString img_path,  QString snd_path):
-			m_Type(type), m_Img(img_path), m_Snd(snd_path) {}
-		inline Fruit getType() const {return m_Type;}
-		inline QString getImg() const {return m_Img;}
+			__type(type), __img(img_path), __snd(snd_path) {}
+		inline Fruit getType() const {return __type;}
+		inline QString getImg() const {return __img;}
+		inline QString getSnd() const {return __snd;}
 	private:
-		Fruit m_Type;
-		QString m_Img;
-		QString m_Snd;
+		Fruit __type;
+		QString __img;
+		QString __snd;
 };
