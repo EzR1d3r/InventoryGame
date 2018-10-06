@@ -7,6 +7,5 @@ int main(int argc, char *argv[])
 	IG_MainWidget w;
 	w.show();
 
-
 	return a.exec();
 }

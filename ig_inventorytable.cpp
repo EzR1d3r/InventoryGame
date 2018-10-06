@@ -54,6 +54,13 @@ void IG_InventoryTable::dropEvent(QDropEvent *event)
 	}
 }
 
+void IG_InventoryTable::clear()
+{
+	for (int r = 0; r < rowCount(); r++)
+		for (int c = 0; c < columnCount(); c++)
+			getSlot(r, c)->clear();
+}
+
 IG_Slot *IG_InventoryTable::getSlot(int row, int column)
 {
 	return dynamic_cast<IG_Slot*> ( item(row, column) );

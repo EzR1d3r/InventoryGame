@@ -20,6 +20,7 @@ public:
 
 	inline void setName(QString name){ __name = name; }
 	QString getName() const {return __name;}
+	void clear();
 signals:
 	void slotChanged(IG_Slot * pSlot);
 private:

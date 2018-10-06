@@ -29,17 +29,20 @@ SOURCES += \
     ig_slot.cpp \
     ig_item.cpp \
     ig_databasemanager.cpp \
-    ig_MainWidget.cpp
+    ig_MainWidget.cpp \
+    ig_MainMenu.cpp
 
 HEADERS += \
     ig_inventorytable.h \
     ig_slot.h \
     ig_item.h \
     ig_databasemanager.h \
-    ig_MainWidget.h
+    ig_MainWidget.h \
+    ig_MainMenu.h
 
 FORMS += \
-        ig_mainwidget.ui
+        ig_mainwidget.ui \
+    ig_mainmenu.ui
 
 RESOURCES += \
     sourses.qrc

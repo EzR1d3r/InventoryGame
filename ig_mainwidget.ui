@@ -243,16 +243,9 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QPushButton" name="btnNewGame">
+     <widget class="QPushButton" name="btnMainMenu">
       <property name="text">
-       <string>New Game</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="btnExit">
-      <property name="text">
-       <string>Exit</string>
+       <string>Main Menu</string>
       </property>
      </widget>
     </item>
