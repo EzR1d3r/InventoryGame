@@ -15,7 +15,12 @@ IG_MainMenu::~IG_MainMenu()
 
 void IG_MainMenu::on_btnNewGame_clicked()
 {
-	emit new_game();
+	if (ui->rbServer->isChecked())
+		emit new_game(NetworkRole::Server);
+	else
+		emit new_game(NetworkRole::Client);
+	ui->rbClient->setEnabled(false);
+	ui->rbServer->setEnabled(false);
 	close();
 }
 

@@ -14,12 +14,30 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" colspan="2">
+   <item row="0" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Main Menu&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
+   </item>
+   <item row="0" column="1">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QRadioButton" name="rbServer">
+       <property name="text">
+        <string>Server</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="rbClient">
+       <property name="text">
+        <string>Client</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item row="1" column="0">
     <widget class="QPushButton" name="btnNewGame">

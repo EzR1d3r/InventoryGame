@@ -3,13 +3,22 @@
 #include "ig_slot.h"
 
 
-IG_DataBaseManager::IG_DataBaseManager(){}
-
+IG_DataBaseManager::IG_DataBaseManager()
+{
+	__ID = __counter;
+	__counter +=1;
+}
+int IG_DataBaseManager::__counter = 0;
 
 void IG_DataBaseManager::connectInventory(IG_InventoryTable *pInventory)
 {
 	query_create_inventory_table( pInventory->objectName() );
 	connect( pInventory, pInventory->slotChanged, this, query_change_slot);
+}
+
+void IG_DataBaseManager::diconnectInventory(IG_InventoryTable *pInventory)
+{
+	disconnect(pInventory, pInventory->slotChanged, 0, 0);
 }
 
 void IG_DataBaseManager::addItemInDB(Fruit type, QString name, QString img_path, QString snd_path)
@@ -82,7 +91,8 @@ void IG_DataBaseManager::query_create_inventory_table(QString name)
 
 void IG_DataBaseManager::connectSQLiteDB(QString name)
 {
-	__data_base = QSqlDatabase::addDatabase("QSQLITE");
+	QString id = QString("connection_SQLiteDB_ID%1").arg(__ID);
+	__data_base = QSqlDatabase::addDatabase("QSQLITE", id);
 	__data_base.setDatabaseName(name);
 
 	if (!__data_base.open())

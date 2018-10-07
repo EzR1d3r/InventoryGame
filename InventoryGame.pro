@@ -40,7 +40,8 @@ HEADERS += \
     ig_databasemanager.h \
     ig_MainWidget.h \
     ig_MainMenu.h \
-    ig_server.h
+    ig_server.h \
+    ig_consts.h
 
 FORMS += \
         ig_mainwidget.ui \

@@ -17,6 +17,8 @@ public:
 	void dragMoveEvent(QDragMoveEvent *event);
 	void dropEvent( QDropEvent * event );
 	void clear();
+public slots:
+	void externalChange(int row, int column, int count, int item_type, const char * img_path);
 signals:
 	void slotChanged(IG_Slot * pSlot);
 	void deleteOneItem(IG_Slot * pSlot);

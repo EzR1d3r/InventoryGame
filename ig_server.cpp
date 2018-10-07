@@ -19,6 +19,14 @@ void IG_Server::startServer()
 		qDebug() << "Server is ready";
 }
 
+void IG_Server::stopServer()
+{
+	if (__socket)
+	{
+		__socket->disconnectFromHost();
+	}
+}
+
 void IG_Server::incomingConnection(qintptr socketDescriptor)
 {
 	if (__socket) return; // ограничение одним подключением
@@ -33,18 +41,25 @@ void IG_Server::incomingConnection(qintptr socketDescriptor)
 void IG_Server::slotChanged(IG_Slot * pSlot)
 {
 	if (!__socket) return;
-	qDebug() << "Server: recieved signal slot changed" << pSlot;
+//	qDebug() << "========================";
+//	qDebug() << "Server: recieved signal slot changed" << pSlot->row() << pSlot->column();
 	__socket->write( prepareData( pSlot ) );
 }
 
 QByteArray IG_Server::prepareData(IG_Slot *pSlot)
 {
+//	qDebug() << "Prepare data";
 	QByteArray data;
 	QDataStream out(&data, QIODevice::WriteOnly);
 	out << qint32(pSlot->row());
 	out << qint32(pSlot->column());
 	out << qint32(pSlot->getCount());
 	out << qint32(pSlot->getType());
+
+	if (pSlot->getCount())
+		out << pSlot->getItems().last().getImg().toStdString().c_str();
+	else
+		out << "";
 
 	return data;
 }
@@ -56,8 +71,10 @@ void IG_Server::socketReady()
 
 void IG_Server::socketDisconnected()
 {
-	__socket->deleteLater(); //сделать корректное удаление сокета ???
-	qDebug() << "Socket disconnected";
+	disconnect(__socket,0,0,0);
+	delete __socket;
+	__socket = 0;
+	qDebug() << "Server: Socket disconnected";
 }
 
 
@@ -73,17 +90,33 @@ IG_Client::IG_Client()
 	__socket->connectToHost( HOST_ADDRESS, PORT );
 }
 
+void IG_Client::stopClient()
+{
+	if (__socket)
+	{
+		__socket->disconnectFromHost();
+	}
+}
+
 void IG_Client::unpackData(QByteArray data)
 {
+//	qDebug() << "Unpack data";
 	QDataStream in(&data, QIODevice::ReadOnly);
+
 	int row, column, count, item_type;
-	in >> item_type;
-	in >> count;
-	in >> column;
-	in >> row;
+	char * img_path;
 
+	while (!in.atEnd())
+	{
+		in >> row;
+		in >> column;
+		in >> count;
+		in >> item_type;
+		in >> img_path;
 
-	qDebug() << row << column << count << item_type; //порядок??
+		emit newData(row, column, count, item_type, img_path);
+//		qDebug() << row << column << count << item_type << img_path << in.atEnd();
+	}
 }
 
 void IG_Client::socketReady()
@@ -98,5 +131,8 @@ void IG_Client::socketReady()
 
 void IG_Client::socketDisconnected()
 {
-	__socket->deleteLater();
+	disconnect(__socket,0,0,0);
+	delete __socket;
+	__socket = 0;
+	qDebug() << "Client: Socket disconnected";
 }

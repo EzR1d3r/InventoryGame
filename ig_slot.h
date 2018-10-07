@@ -20,6 +20,7 @@ public:
 	void addItem(const Item& item);
 	void addItem(Fruit type, QString img_path, QString snd_path);
 	void removeLast();
+	void externalChange(int count, Fruit type, QString img_path);
 	void clear();
 private slots:
 	void update();

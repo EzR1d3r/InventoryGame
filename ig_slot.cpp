@@ -61,6 +61,14 @@ void IG_Slot::removeLast()
 	update();
 }
 
+void IG_Slot::externalChange(int count, Fruit type, QString img_path)
+{
+	__items.clear();
+	__type = type;
+	__items.fill ( Item(type, img_path, ""), count );
+	update();
+}
+
 void IG_Slot::update()
 {
 	setText( QString::number( getCount() ) );

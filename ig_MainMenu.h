@@ -1,5 +1,6 @@
 #pragma once
 #include <QWidget>
+#include <ig_consts.h>
 
 namespace Ui
 {
@@ -14,7 +15,7 @@ public:
 	~IG_MainMenu();
 signals:
 	void close_mm(bool);
-	void new_game();
+	void new_game(NetworkRole);
 	void exit_game(int i);
 protected:
 	void closeEvent(QCloseEvent *event);

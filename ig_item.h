@@ -2,19 +2,12 @@
 #include <QString>
 #include <QVector>
 #include <QDebug>
-
-enum class Fruit
-{
-	None,
-	Apple,
-	Banana,
-	Qiwi
-};
+#include "ig_consts.h"
 
 class Item
 {
 	public:
-		Item(){}
+		Item(): __type(Fruit::None), __img(""), __snd("") {}
 		Item (Fruit type, QString img_path,  QString snd_path):
 			__type(type), __img(img_path), __snd(snd_path) {}
 		inline Fruit getType() const {return __type;}
