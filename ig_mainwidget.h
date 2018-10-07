@@ -3,6 +3,8 @@
 #include <ig_databasemanager.h>
 
 class IG_MainMenu;
+class IG_Server;
+class IG_Client;
 
 namespace Ui
 {
@@ -26,4 +28,7 @@ private:
 	IG_DataBaseManager db;
 	Ui::IG_MainWidget *ui;
 	IG_MainMenu * mm;
+	IG_Server * __server = 0;
+	IG_Client * __client = 0;
+	bool __is_server = true;
 };

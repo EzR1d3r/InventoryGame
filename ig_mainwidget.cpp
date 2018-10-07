@@ -6,6 +6,7 @@
 #include <ig_MainMenu.h>
 #include <ig_item.h>
 #include <ig_slot.h>
+#include <ig_server.h>
 
 #define PROJECT_PATH "f:/Projects/InventoryGame/%1"
 
@@ -13,19 +14,21 @@
 IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_MainWidget)
 {
 	ui->setupUi(this);
-	mm = new IG_MainMenu();
 
-	//логиченее делать fillBySlots() в конструкторе, но атоматическое создание
+	//логиченее делать fillBySlots() в конструкторе, но автоматическое создание
 	//объекта в Qt сначала создает объект, а потом менят кол-во столбцов и колонок
 	//как вариант перегрузить эти методы
 	ui->twInventory->fillBySlots();
 	ui->twStore->fillBySlots();
 
+	//Main menu widget
+	mm = new IG_MainMenu();
 	connect(mm, mm->exit_game, this, exit);
 	connect(mm, mm->new_game, this, new_game);
 	connect(mm, mm->close_mm, this, setEnabled);
 	connect(ui->twInventory, ui->twInventory->deleteOneItem, this, playSnd);
 
+	//Data base
 	db.connectSQLiteDB( QString(PROJECT_PATH).arg("sqlite/inv_game.sqlite") );
 	db.connectInventory( ui->twInventory );
 
@@ -41,11 +44,21 @@ IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_M
 
 	ui->twStore->getSlot(2, 0)->addItem( Fruit::Qiwi, db.imgPathByType(Fruit::Qiwi), db.sndPathByType( Fruit::Qiwi) );
 	ui->twStore->getSlot(2, 0)->setInfinite(true);
+
+	//Server side
+//	if (!__is_server) return;
+	__server = new IG_Server();
+	connect( ui->twInventory, ui->twInventory->slotChanged, __server, __server->slotChanged);
+	__server->startServer();
+
+	__client = new IG_Client();
 }
 
 IG_MainWidget::~IG_MainWidget()
 {
 	db.disconnectSQLiteDB();
+	delete __server;
+	delete __client;
 	delete mm;
 	delete ui;
 }

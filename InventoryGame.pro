@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql multimedia
+QT       += core gui sql multimedia network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -30,7 +30,8 @@ SOURCES += \
     ig_item.cpp \
     ig_databasemanager.cpp \
     ig_MainWidget.cpp \
-    ig_MainMenu.cpp
+    ig_MainMenu.cpp \
+    ig_server.cpp
 
 HEADERS += \
     ig_inventorytable.h \
@@ -38,7 +39,8 @@ HEADERS += \
     ig_item.h \
     ig_databasemanager.h \
     ig_MainWidget.h \
-    ig_MainMenu.h
+    ig_MainMenu.h \
+    ig_server.h
 
 FORMS += \
         ig_mainwidget.ui \
