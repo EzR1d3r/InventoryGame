@@ -6,7 +6,7 @@
 #include <ig_MainMenu.h>
 #include <ig_item.h>
 #include <ig_slot.h>
-#include <ig_server.h>
+#include <ig_network.h>
 
 #define PROJECT_PATH "f:/Projects/InventoryGame/%1"
 

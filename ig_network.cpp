@@ -1,7 +1,7 @@
 #include <QDebug>
 #include <QDataStream>
 #include <ig_slot.h>
-#include "ig_server.h"
+#include "ig_network.h"
 
 #define HOST_ADDRESS QHostAddress::LocalHost
 #define PORT 1313
@@ -121,7 +121,7 @@ void IG_Client::unpackData(QByteArray data)
 
 void IG_Client::socketReady()
 {
-	qDebug() << "Client: Incoming data from server, socket: " << __socket;
+//	qDebug() << "Client: Incoming data from server, socket: " << __socket;
 	if (__socket && __socket->waitForConnected(500))
 	{
 		QByteArray data = __socket->readAll();
