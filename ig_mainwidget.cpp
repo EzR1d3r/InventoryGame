@@ -28,20 +28,7 @@ IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_M
 	connect(mm, mm->close_mm, this, setEnabled);
 	connect(ui->twInventory, ui->twInventory->deleteOneItem, this, playSnd);
 
-	db.connectSQLiteDB( QString(PROJECT_PATH).arg("sqlite/inv_game.sqlite") );
-
-	db.addItemInDB( Fruit::Apple, "apple", ":/src/images/apple.png", ":/src/snds/apple.wav");
-	db.addItemInDB( Fruit::Banana, "banana", ":/src/images/banana.png", ":/src/snds/banana.wav");
-	db.addItemInDB( Fruit::Qiwi, "qiwi", ":/src/images/qiwi.png", "");
-
-	ui->twStore->getSlot(0, 0)->addItem( Fruit::Apple, db.imgPathByType(Fruit::Apple), db.sndPathByType( Fruit::Apple ) );
-	ui->twStore->getSlot(0, 0)->setInfinite(true);
-
-	ui->twStore->getSlot(1, 0)->addItem( Fruit::Banana, db.imgPathByType(Fruit::Banana), db.sndPathByType( Fruit::Banana ) );
-	ui->twStore->getSlot(1, 0)->setInfinite(true);
-
-	ui->twStore->getSlot(2, 0)->addItem( Fruit::Qiwi, db.imgPathByType(Fruit::Qiwi), db.sndPathByType( Fruit::Qiwi) );
-	ui->twStore->getSlot(2, 0)->setInfinite(true);
+//	db.connectSQLiteDB( QString(PROJECT_PATH).arg("sqlite/inv_game.sqlite") );
 }
 
 IG_MainWidget::~IG_MainWidget()

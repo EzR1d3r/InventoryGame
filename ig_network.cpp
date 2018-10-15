@@ -57,7 +57,7 @@ QByteArray IG_Server::prepareData(IG_Slot *pSlot)
 	out << qint32(pSlot->getType());
 
 	if (pSlot->getCount())
-		out << pSlot->getItems().last().getImg().toStdString().c_str();
+		out << ""; //TODO: заглушка
 	else
 		out << "";
 

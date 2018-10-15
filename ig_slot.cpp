@@ -2,7 +2,7 @@
 #include "ig_inventorytable.h"
 
 IG_Slot::IG_Slot( IG_InventoryTable * parent ):
-	__type(Fruit::None), __infinite(false), __parent (parent)
+	__type(0), __infinite(false), __parent (parent)
 {
 	update();
 }
@@ -10,14 +10,14 @@ IG_Slot::IG_Slot( IG_InventoryTable * parent ):
 void IG_Slot::clear()
 {
 	__items.clear();
-	__type = Fruit::None;
+	__type = 0;
 	update();
 }
 
 void IG_Slot::takeFrom(IG_Slot *pSlot)
 {
 	if (pSlot == this) return;
-	if ( __type == Fruit::None)
+	if ( __type == 0)
 	{
 		__type = pSlot->getType();
 		__items.append( pSlot->getItems() );
@@ -31,41 +31,34 @@ void IG_Slot::takeFrom(IG_Slot *pSlot)
 	update();
 }
 
-void IG_Slot::addItem(const Item &item)
+void IG_Slot::addItem(const IG_Item &item)
 {
-	if (__type == Fruit::None)
+	if (__type == 0)
 	{
-		__type = item.getType();
-		__items.append(item);
+		__type = item.getIndex();
+		__items.push(item);
 	}
-	else if ( __type == item.getType() )
+	else if ( __type == item.getIndex() )
 	{
-		__items.append(item);
+		__items.push(item);
 	}
 	update();
 }
 
-void IG_Slot::addItem(Fruit type, QString img_path, QString snd_path)
-{
-	Item item(type, img_path, snd_path);
-	addItem(item);
-}
-
 void IG_Slot::removeLast()
 {
-	if (!__items.count() || __infinite) return;
-	__items.removeLast();
+	if (__items.isEmpty() || __infinite) return;
+	__items.pop();
+	if ( __items.isEmpty() ) __type = 0;
 	emit __parent->deleteOneItem(this);
 	//по идее слот должен свой сигнал эмитить,
 	//таблица ловить и эмитить свой, для краткости сразу через __parent
 	update();
 }
 
-void IG_Slot::externalChange(int count, Fruit type, QString img_path)
+void IG_Slot::externalChange(int count, const IG_Item& item)
 {
-	__items.clear();
-	__type = type;
-	__items.fill ( Item(type, img_path, ""), count );
+	//заглушка
 	update();
 }
 
@@ -74,6 +67,6 @@ void IG_Slot::update()
 	setText( QString::number( getCount() ) );
 	setTextAlignment (Qt::AlignRight | Qt::AlignBottom);
 	setIcon( QIcon() );
-	if ( getCount() ) setIcon( QIcon( __items.last().getImg() ) );
+	if ( getCount() ) setIcon( QIcon( __items.top().getImg( __items.top().getState() )));
 	emit __parent->slotChanged( this );
 }
