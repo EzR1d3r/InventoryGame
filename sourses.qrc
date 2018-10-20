@@ -1,9 +1,7 @@
 <RCC>
     <qresource prefix="/src">
-        <file>images/apple.png</file>
-        <file>snds/apple.wav</file>
-        <file>images/banana.png</file>
-        <file>snds/banana.wav</file>
-        <file>images/qiwi.png</file>
+        <file>images/apple_0.png</file>
+        <file>images/apple_1.png</file>
+        <file>images/apple_2.png</file>
     </qresource>
 </RCC>

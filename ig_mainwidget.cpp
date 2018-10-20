@@ -21,19 +21,41 @@ IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_M
 	ui->twInventory->fillBySlots();
 	ui->twStore->fillBySlots();
 
+	QHash<int, QString> states;
+	for (int i = 0; i < 3; i++)
+		states.insert(i, QString(":/src/images/apple_%1.png").arg( QString::number( i ) ));
+
+	// Временно создаю итемы прямо тут, для отладки, потом будут грузиться из БД
+	item_params params;
+	params.__idx = 1;
+	params.__name = "apple";
+	params.__state = 2;
+	params.__states = states;
+	params.__interact_type = InteractionType::Stack;
+	IG_Item item( params );
+	IG_Slot * pSlot = new IG_Slot( ui->twInventory );
+	pSlot->addItem( item );
+	pSlot->addItem( item );
+	pSlot->addItem( item );
+	IG_Slot * pSlot2 = new IG_Slot( ui->twInventory );
+	pSlot2->addItem( item );
+	pSlot2->addItem( item );
+	ui->twInventory->setItem(0, 0, pSlot);
+	ui->twInventory->setItem(1, 1, pSlot2);
+
 	//Main menu widget
 	mm = new IG_MainMenu();
 	connect(mm, mm->exit_game, this, exit);
 	connect(mm, mm->new_game, this, new_game);
 	connect(mm, mm->close_mm, this, setEnabled);
-	connect(ui->twInventory, ui->twInventory->deleteOneItem, this, playSnd);
+//	connect(ui->twInventory, ui->twInventory->deleteOneItem, this, playSnd);
 
 //	db.connectSQLiteDB( QString(PROJECT_PATH).arg("sqlite/inv_game.sqlite") );
 }
 
 IG_MainWidget::~IG_MainWidget()
 {
-	db.disconnectSQLiteDB();
+//	db.disconnectSQLiteDB();
 	delete __server;
 	delete __client;
 	delete mm;
@@ -55,7 +77,7 @@ void IG_MainWidget::new_game(NetworkRole role)
 		becomeClient();
 
 	setEnabled(true);
-	ui->twInventory->clear();
+//	ui->twInventory->clear();
 
 	QWidget::show();
 }
@@ -84,7 +106,7 @@ void IG_MainWidget::becomeServer()
 //		ui->twInventory->setDragDropMode( QAbstractItemView::DragDrop );
 //	}
 
-	db.connectInventory( ui->twInventory );
+//	db.connectInventory( ui->twInventory );
 
 	__server = new IG_Server();
 	connect( ui->twInventory, ui->twInventory->slotChanged, __server, __server->slotChanged);

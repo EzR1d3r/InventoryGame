@@ -55,7 +55,7 @@ void IG_DataBaseManager::query_change_slot(IG_Slot *pSlot)
 {
 	QString t_name = pSlot->getParent()->objectName();
 	int count = pSlot->getCount();
-	int type = static_cast<int> (pSlot->getType());
+	int type = static_cast<int> (pSlot->getItems().top().getIndex());
 	int row = pSlot->row();
 	int column = pSlot->column();
 
@@ -87,6 +87,11 @@ void IG_DataBaseManager::query_create_inventory_table(QString name)
 
 	QSqlQuery SqlQuery = QSqlQuery( __data_base );
 	SqlQuery.exec( query.arg(name) );
+}
+
+void IG_DataBaseManager::query_load_inventory_table(QString name)
+{
+
 }
 
 void IG_DataBaseManager::connectSQLiteDB(QString name)

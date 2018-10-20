@@ -54,7 +54,7 @@ QByteArray IG_Server::prepareData(IG_Slot *pSlot)
 	out << qint32(pSlot->row());
 	out << qint32(pSlot->column());
 	out << qint32(pSlot->getCount());
-	out << qint32(pSlot->getType());
+	out << qint32(pSlot->getItems().top().getIndex());
 
 	if (pSlot->getCount())
 		out << ""; //TODO: заглушка

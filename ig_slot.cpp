@@ -2,7 +2,7 @@
 #include "ig_inventorytable.h"
 
 IG_Slot::IG_Slot( IG_InventoryTable * parent ):
-	__type(0), __infinite(false), __parent (parent)
+	__infinite(false), __parent (parent)
 {
 	update();
 }
@@ -10,20 +10,18 @@ IG_Slot::IG_Slot( IG_InventoryTable * parent ):
 void IG_Slot::clear()
 {
 	__items.clear();
-	__type = 0;
 	update();
 }
 
-void IG_Slot::takeFrom(IG_Slot *pSlot)
+void IG_Slot::Interact(IG_Slot *pSlot)
 {
 	if (pSlot == this) return;
-	if ( __type == 0)
+	if ( __items.isEmpty() )
 	{
-		__type = pSlot->getType();
 		__items.append( pSlot->getItems() );
 		if (!pSlot->isInfinite()) pSlot->clear();
 	}
-	else if ( __type == pSlot->getType() )
+	else if ( __items.top().getIndex() == pSlot->getItems().top().getIndex() )
 	{
 		__items.append( pSlot->getItems() );
 		if (!pSlot->isInfinite()) pSlot->clear();
@@ -33,23 +31,19 @@ void IG_Slot::takeFrom(IG_Slot *pSlot)
 
 void IG_Slot::addItem(const IG_Item &item)
 {
-	if (__type == 0)
-	{
-		__type = item.getIndex();
-		__items.push(item);
-	}
-	else if ( __type == item.getIndex() )
-	{
-		__items.push(item);
-	}
+	__items.push(item);
 	update();
 }
 
-void IG_Slot::removeLast()
+void IG_Slot::hitLast()
 {
 	if (__items.isEmpty() || __infinite) return;
-	__items.pop();
-	if ( __items.isEmpty() ) __type = 0;
+	uint top_state = __items.top().getState();
+	if (!top_state)
+		__items.pop();
+	else
+		__items.top().setState( __items.top().getState() -1 );
+
 	emit __parent->deleteOneItem(this);
 	//по идее слот должен свой сигнал эмитить,
 	//таблица ловить и эмитить свой, для краткости сразу через __parent

@@ -15,7 +15,7 @@ void IG_InventoryTable::mousePressEvent(QMouseEvent *event)
 	IG_Slot * pSource = dynamic_cast<IG_Slot*>(itemAt( event->pos() ));
 	if (event->button() == Qt::MouseButton::RightButton)
 	{
-		pSource->removeLast();
+		pSource->hitLast();
 		return;
 	}
 
@@ -52,7 +52,7 @@ void IG_InventoryTable::dropEvent(QDropEvent *event)
 			const char * data = event->mimeData()->data( "source_slot" ).constData();
 			QStringList r_c = QString( data ).split(" ");
 			IG_Slot * pSourceSlot = pSourceInventory->getSlot( r_c[0].toInt(), r_c[1].toInt());
-			pTargetSlot->takeFrom( pSourceSlot );
+			pTargetSlot->Interact( pSourceSlot );
 		}
 	}
 }

@@ -14,3 +14,12 @@ enum class NetworkRole
 	Server,
 	Client
 };
+
+enum InteractionType
+{
+	None    = 0x0,
+	Stack   = 0x1,
+	Volumes = 0x2,
+
+	Stack_Volumes = Stack | Volumes,
+};

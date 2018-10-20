@@ -29,7 +29,7 @@ private slots:
 	void becomeServer();
 	void becomeClient();
 private:
-	IG_DataBaseManager db;
+//	IG_DataBaseManager db;
 	Ui::IG_MainWidget *ui;
 	IG_MainMenu * mm;
 	IG_Server * __server = 0;

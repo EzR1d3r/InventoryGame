@@ -21,6 +21,7 @@ public:
 private slots:
 	void query_change_slot(IG_Slot * pSlot);
 	void query_create_inventory_table (QString name);
+	void query_load_inventory_table (QString name);
 private:
 	QSqlDatabase __data_base;
 	static int __counter;
