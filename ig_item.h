@@ -25,7 +25,10 @@ class IG_Item
 		inline void addImg (uint state, QString path) { __states.insert(state, path); }
 		inline QString getSnd() const {return __snd;}
 		inline uint getState() const {return __state;}
+		inline InteractionType getInteractType() const {return __interact_type;}
 		inline void setState(uint state){ __state = state; }
+		void interactWith (IG_Item &other);
+
 	private:
 		uint __idx;
 		QString __name;
@@ -33,4 +36,7 @@ class IG_Item
 		InteractionType __interact_type;
 		QHash <int, QString> __states;
 		QString __snd;
+
+		//
+		template <InteractionType type> void interactAs (IG_Item &other);
 };

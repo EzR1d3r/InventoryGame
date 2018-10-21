@@ -13,9 +13,10 @@ public:
 	inline unsigned int getCount () const {return __items.count();}
 	inline const QStack<IG_Item>& getItems() const {return __items;}
 	inline IG_InventoryTable * getParent() const {return __parent;}
+	inline IG_Item& getTop (){ return __items.top(); }
 	inline bool isInfinite() const { return __infinite;}
 
-	void Interact (IG_Slot *pSlot );
+	void tryStack (IG_Slot *pSlot );
 	inline void setInfinite(bool infinite){ __infinite = infinite;}
 	void addItem(const IG_Item& item);
 	void addItem(Fruit type, QString img_path, QString snd_path);

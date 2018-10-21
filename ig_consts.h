@@ -23,3 +23,12 @@ enum InteractionType
 
 	Stack_Volumes = Stack | Volumes,
 };
+
+inline InteractionType operator|(InteractionType a, InteractionType b)
+{return static_cast<InteractionType>(static_cast<int>(a) | static_cast<int>(b));}
+
+inline InteractionType operator&(InteractionType a, InteractionType b)
+{return static_cast<InteractionType>(static_cast<int>(a) & static_cast<int>(b));}
+
+//#include "winnt.h"
+//DEFINE_ENUM_FLAG_OPERATORS(AnimalFlags)

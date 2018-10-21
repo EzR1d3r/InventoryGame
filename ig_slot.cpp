@@ -13,7 +13,7 @@ void IG_Slot::clear()
 	update();
 }
 
-void IG_Slot::Interact(IG_Slot *pSlot)
+void IG_Slot::tryStack(IG_Slot *pSlot)
 {
 	if (pSlot == this) return;
 	if ( __items.isEmpty() )
@@ -21,10 +21,17 @@ void IG_Slot::Interact(IG_Slot *pSlot)
 		__items.append( pSlot->getItems() );
 		if (!pSlot->isInfinite()) pSlot->clear();
 	}
-	else if ( __items.top().getIndex() == pSlot->getItems().top().getIndex() )
+	else if ( getTop().getIndex() == pSlot->getTop().getIndex() &&
+			  (getTop().getInteractType() & InteractionType::Stack) )
 	{
+		qDebug() << getTop().getInteractType() << (int)InteractionType::Stack << (int)(getTop().getInteractType() & InteractionType::Stack);
 		__items.append( pSlot->getItems() );
 		if (!pSlot->isInfinite()) pSlot->clear();
+	}
+	else
+	{
+		getTop().interactWith( pSlot->getTop() );
+		pSlot->update();
 	}
 	update();
 }

@@ -21,24 +21,44 @@ IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_M
 	ui->twInventory->fillBySlots();
 	ui->twStore->fillBySlots();
 
-	QHash<int, QString> states;
-	for (int i = 0; i < 3; i++)
-		states.insert(i, QString(":/src/images/apple_%1.png").arg( QString::number( i ) ));
-
 	// Временно создаю итемы прямо тут, для отладки, потом будут грузиться из БД
+//	QHash<int, QString> states;
+//	for (int i = 0; i < 3; i++)
+//		states.insert(i, QString(":/src/images/apple_%1.png").arg( QString::number( i ) ));
+
+//	item_params params;
+//	params.__idx = 1;
+//	params.__name = "apple";
+//	params.__state = 2;
+//	params.__states = states;
+//	params.__interact_type = InteractionType::Stack;
+
+//	IG_Item item( params );
+//	IG_Slot * pSlot = new IG_Slot( ui->twInventory );
+//	pSlot->addItem( item );
+//	pSlot->addItem( item );
+//	pSlot->addItem( item );
+//	IG_Slot * pSlot2 = new IG_Slot( ui->twInventory );
+//	pSlot2->addItem( item );
+//	pSlot2->addItem( item );
+//	ui->twInventory->setItem(0, 0, pSlot);
+//	ui->twInventory->setItem(1, 1, pSlot2);
+
+	QHash<int, QString> states;
+	for (int i = 0; i < 2; i++)
+		states.insert(i, QString(":/src/images/vine_glass_%1.png").arg( QString::number( i ) ));
+
 	item_params params;
-	params.__idx = 1;
-	params.__name = "apple";
-	params.__state = 2;
+	params.__idx = 2;
+	params.__name = "glass_vine";
+	params.__state = 1;
 	params.__states = states;
-	params.__interact_type = InteractionType::Stack;
+	params.__interact_type = InteractionType::Volumes;
+
 	IG_Item item( params );
 	IG_Slot * pSlot = new IG_Slot( ui->twInventory );
 	pSlot->addItem( item );
-	pSlot->addItem( item );
-	pSlot->addItem( item );
 	IG_Slot * pSlot2 = new IG_Slot( ui->twInventory );
-	pSlot2->addItem( item );
 	pSlot2->addItem( item );
 	ui->twInventory->setItem(0, 0, pSlot);
 	ui->twInventory->setItem(1, 1, pSlot2);
