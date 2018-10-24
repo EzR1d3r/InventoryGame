@@ -5,5 +5,7 @@
         <file>images/apple_2.png</file>
         <file>images/vine_glass_0.png</file>
         <file>images/vine_glass_1.png</file>
+        <file>snds/apple.wav</file>
+        <file>snds/banana.wav</file>
     </qresource>
 </RCC>

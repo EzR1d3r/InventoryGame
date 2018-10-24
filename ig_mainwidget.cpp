@@ -19,49 +19,6 @@ IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_M
 	//объекта в Qt сначала создает объект, а потом менят кол-во столбцов и колонок
 	//как вариант перегрузить эти методы
 	ui->twInventory->fillBySlots();
-	ui->twStore->fillBySlots();
-
-	// Временно создаю итемы прямо тут, для отладки, потом будут грузиться из БД
-//	QHash<int, QString> states;
-//	for (int i = 0; i < 3; i++)
-//		states.insert(i, QString(":/src/images/apple_%1.png").arg( QString::number( i ) ));
-
-//	item_params params;
-//	params.__idx = 1;
-//	params.__name = "apple";
-//	params.__state = 2;
-//	params.__states = states;
-//	params.__interact_type = InteractionType::Stack;
-
-//	IG_Item item( params );
-//	IG_Slot * pSlot = new IG_Slot( ui->twInventory );
-//	pSlot->addItem( item );
-//	pSlot->addItem( item );
-//	pSlot->addItem( item );
-//	IG_Slot * pSlot2 = new IG_Slot( ui->twInventory );
-//	pSlot2->addItem( item );
-//	pSlot2->addItem( item );
-//	ui->twInventory->setItem(0, 0, pSlot);
-//	ui->twInventory->setItem(1, 1, pSlot2);
-
-	QHash<int, QString> states;
-	for (int i = 0; i < 2; i++)
-		states.insert(i, QString(":/src/images/vine_glass_%1.png").arg( QString::number( i ) ));
-
-	item_params params;
-	params.__idx = 2;
-	params.__name = "glass_vine";
-	params.__state = 1;
-	params.__states = states;
-	params.__interact_type = InteractionType::Volumes;
-
-	IG_Item item( params );
-	IG_Slot * pSlot = new IG_Slot( ui->twInventory );
-	pSlot->addItem( item );
-	IG_Slot * pSlot2 = new IG_Slot( ui->twInventory );
-	pSlot2->addItem( item );
-	ui->twInventory->setItem(0, 0, pSlot);
-	ui->twInventory->setItem(1, 1, pSlot2);
 
 	//Main menu widget
 	mm = new IG_MainMenu();
@@ -70,7 +27,8 @@ IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_M
 	connect(mm, mm->close_mm, this, setEnabled);
 //	connect(ui->twInventory, ui->twInventory->deleteOneItem, this, playSnd);
 
-//	db.connectSQLiteDB( QString(PROJECT_PATH).arg("sqlite/inv_game.sqlite") );
+	db.connectSQLiteDB( QString(PROJECT_PATH).arg("sqlite/inv_game.sqlite") );
+	db.loadAllItemsTo( ui->twStore );
 }
 
 IG_MainWidget::~IG_MainWidget()
@@ -108,7 +66,7 @@ void IG_MainWidget::playSnd(IG_Slot *pSlot)
 	//но когда "съедается" последний в слоте, звук брать неоткуда
 	//либо сигналом передавать именно путь, либо экземпляр итема
 	if (pSlot->getCount())
-		QSound::play(pSlot->getItems().last().getSnd());
+		QSound::play(pSlot->getTop().getSnd());
 }
 
 void IG_MainWidget::becomeServer()

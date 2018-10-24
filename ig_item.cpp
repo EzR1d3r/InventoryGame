@@ -8,6 +8,8 @@ IG_Item::IG_Item(const item_params &params)
 	__interact_type	= params.__interact_type;
 	__states		= params.__states;
 	__snd			= params.__snd;
+
+	qDebug() << __interact_type << __name;
 }
 
 void IG_Item::interactWith(IG_Item &other)

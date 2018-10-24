@@ -19,7 +19,6 @@ public:
 	void tryStack (IG_Slot *pSlot );
 	inline void setInfinite(bool infinite){ __infinite = infinite;}
 	void addItem(const IG_Item& item);
-	void addItem(Fruit type, QString img_path, QString snd_path);
 	void hitLast();
 	void externalChange(int count, const IG_Item &item);
 	void clear();
