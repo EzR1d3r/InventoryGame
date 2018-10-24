@@ -137,17 +137,21 @@ void IG_DataBaseManager::loadAllItemsTo(IG_InventoryTable *pTable)
 		qDebug() << "!!!!!!" << item_idx_idx << ": " << inct_type_idx;
 	}
 
+
 	for (auto params:all_items_params)
 	{
 		QList<int> all_states = params.__states.keys();
 		auto itr_max_state = std::max_element(all_states.begin(), all_states.end());
-		params.__state = *itr_max_state;
+		params.__max_state = *itr_max_state;
+		params.__state = params.__max_state;
 		IG_Item item( params );
 
+		if (!params.__idx) continue;
 		IG_Slot * pSlot = new IG_Slot ( pTable );
 		pSlot->addItem( item );
 		pSlot->setInfinite(true);
-		pTable->setItem( params.__idx, 0, pSlot );
+		pTable->setRowCount( pTable->rowCount() + 1 );
+		pTable->setItem( pTable->rowCount() - 1, 0, pSlot );
 	}
 }
 

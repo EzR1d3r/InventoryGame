@@ -7,5 +7,11 @@
         <file>images/vine_glass_1.png</file>
         <file>snds/apple.wav</file>
         <file>snds/banana.wav</file>
+        <file>images/qiwi.png</file>
+        <file>images/vine_bottle_0.png</file>
+        <file>images/vine_bottle_1.png</file>
+        <file>images/vine_bottle_2.png</file>
+        <file>images/vine_bottle_3.png</file>
+        <file>images/vine_bottle_4.png</file>
     </qresource>
 </RCC>

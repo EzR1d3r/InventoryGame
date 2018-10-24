@@ -7,12 +7,14 @@
 
 struct item_params
 {
-	uint __idx = 0;
-	QString __name = "";
-	uint __state = 0;
-	InteractionType __interact_type = InteractionType::None;
+	uint __idx						= 0;
+	QString __name					= "";
+	uint __state					= 0;
+	uint __max_state				= 0;
+	InteractionType __interact_type	= InteractionType::None;
 	QHash <int, QString> __states;
-	QString __snd = "";
+	QString __snd					= "";
+	bool __mutable					= true;
 };
 
 class IG_Item
@@ -22,20 +24,22 @@ class IG_Item
 		IG_Item (const item_params& params);
 		inline uint getIndex() const {return __idx;}
 		inline QString getImg (uint state) const {return __states.value( state );}
-		inline void addImg (uint state, QString path) { __states.insert(state, path); }
+//		inline void addImg (uint state, QString path) { __states.insert(state, path); }
 		inline QString getSnd() const {return __snd;}
 		inline uint getState() const {return __state;}
 		inline InteractionType getInteractType() const {return __interact_type;}
-		inline void setState(uint state){ __state = state; }
+		void setState(uint state);
 		void interactWith (IG_Item &other);
 
 	private:
 		uint __idx;
 		QString __name;
 		uint __state;
+		uint __max_state;
 		InteractionType __interact_type;
 		QHash <int, QString> __states;
 		QString __snd;
+		bool __mutable = true;
 
 		//
 		template <InteractionType type> void interactAs (IG_Item &other);

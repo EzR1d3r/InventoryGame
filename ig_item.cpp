@@ -5,22 +5,32 @@ IG_Item::IG_Item(const item_params &params)
 	__idx			= params.__idx;
 	__name			= params.__name;
 	__state			= params.__state;
+	__max_state		= params.__max_state;
 	__interact_type	= params.__interact_type;
 	__states		= params.__states;
 	__snd			= params.__snd;
+	__mutable		= params.__mutable;
+}
 
-	qDebug() << __interact_type << __name;
+void IG_Item::setState(uint state)
+{
+	qDebug() << state << " max =  " << __max_state;
+	if (state > __max_state || !__mutable)
+		return;
+	else
+	__state = state;
 }
 
 void IG_Item::interactWith(IG_Item &other)
 {
 	InteractionType it = __interact_type & other.getInteractType();
-	switch (it) {
-	case InteractionType::Volumes:
-		interactAs<InteractionType::Volumes>(other);
-		break;
-	default:
-		break;
+	switch (it)
+	{
+		case InteractionType::Volumes:
+			interactAs<InteractionType::Volumes>(other);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -29,7 +39,7 @@ template<InteractionType type> void IG_Item::interactAs(IG_Item &other)
 	//Нет проверки что max state
 	if (other.getState())
 	{
-		++__state;
+		setState (__state + 1); //через функцию, тк проверка на макс. стейт
 		other.setState( other.getState() - 1 );
 	}
 	qDebug() << "thes.state = " << __state << "; other.state =" << other.getState();
