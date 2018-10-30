@@ -8,7 +8,7 @@ class IG_InventoryTable;
 class IG_Slot : public QTableWidgetItem
 {
 public:
-	IG_Slot(IG_InventoryTable * parent = 0);
+	IG_Slot(IG_InventoryTable * parent = nullptr);
 
 	inline unsigned int getCount () const {return __items.count();}
 	inline const QStack<IG_Item>& getItems() const {return __items;}

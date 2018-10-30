@@ -25,7 +25,7 @@ IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_M
 	connect(mm, mm->exit_game, this, exit);
 	connect(mm, mm->new_game, this, new_game);
 	connect(mm, mm->close_mm, this, setEnabled);
-//	connect(ui->twInventory, ui->twInventory->deleteOneItem, this, playSnd);
+	connect(ui->twInventory, ui->twInventory->preChangeItem, this, playSnd);
 
 	db.connectSQLiteDB( QString(PROJECT_PATH).arg("sqlite/inv_game.sqlite") );
 	db.loadAllItemsTo( ui->twStore );
@@ -60,13 +60,10 @@ void IG_MainWidget::new_game(NetworkRole role)
 	QWidget::show();
 }
 
-void IG_MainWidget::playSnd(IG_Slot *pSlot)
+void IG_MainWidget::playSnd(IG_Slot *pSlot, QString snd)
 {
-	//по тз храним звук файла в классе Item,
-	//но когда "съедается" последний в слоте, звук брать неоткуда
-	//либо сигналом передавать именно путь, либо экземпляр итема
-	if (pSlot->getCount())
-		QSound::play(pSlot->getTop().getSnd());
+	Q_UNUSED( pSlot );
+	QSound::play( snd );
 }
 
 void IG_MainWidget::becomeServer()

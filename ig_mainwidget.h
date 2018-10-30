@@ -17,14 +17,14 @@ class IG_MainWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit IG_MainWidget(QWidget *parent = 0);
+	explicit IG_MainWidget(QWidget *parent = nullptr);
 	~IG_MainWidget();
 
 	void show();
 private slots:
 	void on_btnMainMenu_clicked();
 	void new_game(NetworkRole role);
-	void playSnd(IG_Slot * pSlot);
+	void playSnd(IG_Slot * pSlot, QString snd);
 
 	void becomeServer();
 	void becomeClient();
@@ -32,7 +32,7 @@ private:
 	IG_DataBaseManager db;
 	Ui::IG_MainWidget *ui;
 	IG_MainMenu * mm;
-	IG_Server * __server = 0;
-	IG_Client * __client = 0;
+	IG_Server * __server = nullptr;
+	IG_Client * __client = nullptr;
 	NetworkRole __network_role = NetworkRole::None;
 };

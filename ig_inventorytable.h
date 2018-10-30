@@ -21,5 +21,5 @@ public slots:
 	void externalChange(int row, int column, int count, int item_type, const char * img_path);
 signals:
 	void slotChanged(IG_Slot * pSlot);
-	void deleteOneItem(IG_Slot * pSlot);
+	void preChangeItem(IG_Slot * pSlot, QString snd); //можно все свойства итема эмитить или вообще копию
 };
