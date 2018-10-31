@@ -34,8 +34,6 @@ void IG_DataBaseManager::loadAllItemsTo(IG_InventoryTable *pTable)
 
 	while (SqlQuery.next())
 	{
-//		qDebug() << SqlQuery.record().indexOf("item_idx");
-
 		int item_idx_idx	= SqlQuery.record().indexOf("item_idx");
 		int state_idx		= SqlQuery.record().indexOf("state");
 		int img_path_idx	= SqlQuery.record().indexOf("img_path");
@@ -49,8 +47,6 @@ void IG_DataBaseManager::loadAllItemsTo(IG_InventoryTable *pTable)
 								);
 		params.__snds.insert( SqlQuery.record().value( state_idx ).toUInt(),
 							  SqlQuery.record().value( snd_path_idx ).toString());
-
-		qDebug() << item_idx_idx << state_idx << SqlQuery.record().value( snd_path_idx ).toString();
 
 		if( all_items_params.contains( params.__idx ) )
 			{

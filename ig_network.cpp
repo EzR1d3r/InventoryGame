@@ -71,9 +71,9 @@ void IG_Server::socketReady()
 
 void IG_Server::socketDisconnected()
 {
-	disconnect(__socket,0,0,0);
+	disconnect(__socket,nullptr,nullptr,nullptr);
 	delete __socket;
-	__socket = 0;
+	__socket = nullptr;
 	qDebug() << "Server: Socket disconnected";
 }
 
@@ -115,7 +115,6 @@ void IG_Client::unpackData(QByteArray data)
 		in >> img_path;
 
 		emit newData(row, column, count, item_type, img_path);
-//		qDebug() << row << column << count << item_type << img_path << in.atEnd();
 	}
 }
 
@@ -131,8 +130,8 @@ void IG_Client::socketReady()
 
 void IG_Client::socketDisconnected()
 {
-	disconnect(__socket,0,0,0);
+	disconnect(__socket,nullptr,nullptr,nullptr);
 	delete __socket;
-	__socket = 0;
+	__socket = nullptr;
 	qDebug() << "Client: Socket disconnected";
 }

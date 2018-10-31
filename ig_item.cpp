@@ -14,7 +14,6 @@ IG_Item::IG_Item(const item_params &params)
 
 void IG_Item::setState(uint state)
 {
-//	qDebug() << state << " max =  " << __max_state;
 	if (state > __max_state || !__mutable)
 		return;
 	else
@@ -36,11 +35,9 @@ void IG_Item::interactWith(IG_Item &other)
 
 template<InteractionType type> void IG_Item::interactAs(IG_Item &other)
 {
-	//Нет проверки что max state
 	if (other.getState())
 	{
 		setState (__state + 1); //через функцию, тк проверка на макс. стейт
 		other.setState( other.getState() - 1 );
 	}
-//	qDebug() << "thes.state = " << __state << "; other.state =" << other.getState();
 }

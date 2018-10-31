@@ -13,5 +13,9 @@
         <file>images/vine_bottle_2.png</file>
         <file>images/vine_bottle_3.png</file>
         <file>images/vine_bottle_4.png</file>
+        <file>snds/glass_0.wav</file>
+        <file>snds/hydro_1.wav</file>
+        <file>snds/vine_glass_0.wav</file>
+        <file>images/banana.png</file>
     </qresource>
 </RCC>
