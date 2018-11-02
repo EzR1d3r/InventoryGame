@@ -1,15 +1,13 @@
 #include <QDebug>
 #include <QTableWidgetItem>
 #include <QSound>
+#include <QDir>
 #include "ui_ig_mainwidget.h"
 #include "ig_MainWidget.h"
 #include <ig_MainMenu.h>
 #include <ig_item.h>
 #include <ig_slot.h>
 #include <ig_network.h>
-
-#define PROJECT_PATH "f:/Projects/InventoryGame/%1"
-
 
 IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_MainWidget)
 {
@@ -27,7 +25,8 @@ IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_M
 	connect(mm, mm->close_mm, this, setEnabled);
 	connect(ui->twInventory, ui->twInventory->preChangeItem, this, playSnd);
 
-	db.connectSQLiteDB( QString(PROJECT_PATH).arg("sqlite/inv_game.sqlite") );
+	QString dbPath = QDir(QCoreApplication::applicationDirPath() + "/../..").absolutePath() + "/sqlite/inv_game.sqlite";
+	db.connectSQLiteDB( dbPath );
 	db.loadAllItemsTo( ui->twStore );
 }
 
