@@ -38,7 +38,7 @@ void IG_Server::incomingConnection(qintptr socketDescriptor)
 	qDebug() << "incomingConnection";
 }
 
-void IG_Server::slotChanged(IG_Slot * pSlot)
+void IG_Server::slotChanged(const IG_Slot * pSlot)
 {
 	if (!__socket) return;
 //	qDebug() << "========================";
@@ -46,21 +46,14 @@ void IG_Server::slotChanged(IG_Slot * pSlot)
 	__socket->write( prepareData( pSlot ) );
 }
 
-QByteArray IG_Server::prepareData(IG_Slot *pSlot)
+QByteArray IG_Server::prepareData(const IG_Slot *pSlot)
 {
 //	qDebug() << "Prepare data";
 	QByteArray data;
 	QDataStream out(&data, QIODevice::WriteOnly);
-	out << qint32(pSlot->row());
-	out << qint32(pSlot->column());
-	out << qint32(pSlot->getCount());
-	out << qint32(pSlot->getItems().top().getIndex());
-
-	if (pSlot->getCount())
-		out << ""; //TODO: заглушка
-	else
-		out << "";
-
+	IG_Net_Slot slot_data( pSlot );
+	qDebug() << "!!!" << slot_data.img_path << slot_data.snd_path;
+	out << slot_data;
 	return data;
 }
 
@@ -103,19 +96,13 @@ void IG_Client::unpackData(QByteArray data)
 //	qDebug() << "Unpack data";
 	QDataStream in(&data, QIODevice::ReadOnly);
 
-	int row, column, count, item_type;
-	char * img_path;
+	IG_Net_Slot slot_data;
+	in >> slot_data;
 
-	while (!in.atEnd())
-	{
-		in >> row;
-		in >> column;
-		in >> count;
-		in >> item_type;
-		in >> img_path;
+	qDebug() << slot_data.row << slot_data.column << slot_data.count;
+	qDebug() << slot_data.img_path << slot_data.snd_path;
 
-		emit newData(row, column, count, item_type, img_path);
-	}
+	emit newData(slot_data);
 }
 
 void IG_Client::socketReady()

@@ -23,9 +23,9 @@ class IG_Item
 		IG_Item(){}
 		IG_Item (const item_params& params);
 		inline uint getIndex() const {return __idx;}
-		inline QString getImg (uint state) const {return __states.value( state );}
+		inline QString getImg () const {return __states.value( __state );}
 //		inline void addImg (uint state, QString path) { __states.insert(state, path); }
-		inline QString getSnd( uint state ) const {return __snds.value( state );}
+		inline QString getSnd() const {return __snds.value( __state );}
 		inline uint getState() const {return __state;}
 		inline InteractionType getInteractType() const {return __interact_type;}
 		void setState(uint state);

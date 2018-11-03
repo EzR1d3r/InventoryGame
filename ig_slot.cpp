@@ -46,7 +46,7 @@ void IG_Slot::hitLast()
 	if (__items.isEmpty() || __infinite) return;
 
 	uint top_state = __items.top().getState();
-	QString snd = getTop().getSnd ( top_state );
+	QString snd = getTop().getSnd ();
 	if (!top_state)
 		__items.pop();
 	else
@@ -58,10 +58,13 @@ void IG_Slot::hitLast()
 	update();
 }
 
-void IG_Slot::externalChange(int count, const IG_Item& item)
+void IG_Slot::externalChange(const IG_Net_Slot& slot_data)
 {
-	//заглушка
-	update();
+	__items.clear();
+	setText( QString::number( slot_data.count ) );
+	setTextAlignment (Qt::AlignRight | Qt::AlignBottom);
+	setIcon( QIcon() );
+	setIcon( QIcon( slot_data.img_path) );
 }
 
 void IG_Slot::update()
@@ -69,6 +72,35 @@ void IG_Slot::update()
 	setText( QString::number( getCount() ) );
 	setTextAlignment (Qt::AlignRight | Qt::AlignBottom);
 	setIcon( QIcon() );
-	if ( getCount() ) setIcon( QIcon( __items.top().getImg( __items.top().getState() )));
+	if ( getCount() ) setIcon( QIcon( __items.top().getImg()) );
 	emit __parent->slotChanged( this );
+}
+
+IG_Net_Slot::IG_Net_Slot(const IG_Slot *pSlot):row(pSlot->row()),
+						column(pSlot->column()), count(pSlot->getCount())
+{
+	qDebug() << "&&&" << pSlot->getTopImg() << pSlot->getTopSnd();
+	img_path = pSlot->getTopImg();
+	snd_path = pSlot->getTopSnd();
+
+	qDebug() << "???" << img_path << snd_path;
+}
+
+QDataStream &operator<<(QDataStream &out, const IG_Net_Slot &slot)
+{
+	out << slot.row << slot.column << slot.count;
+	out << slot.img_path.toStdString().c_str() << slot.snd_path.toStdString().c_str();
+	return  out;
+}
+
+QDataStream &operator>>(QDataStream &in, IG_Net_Slot &slot)
+{
+	char * img_path;
+	char * snd_path;
+	in >> slot.row >> slot.column >> slot.count;
+	in >> img_path >> snd_path;
+
+	slot.img_path = QString(img_path);
+	slot.snd_path = QString(snd_path);
+	return  in;
 }

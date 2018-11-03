@@ -2,6 +2,7 @@
 #include <QTableWidget>
 
 class IG_Slot;
+class IG_Net_Slot;
 
 class IG_InventoryTable : public QTableWidget
 {
@@ -18,7 +19,7 @@ public:
 	void dropEvent( QDropEvent * event );
 	void clear();
 public slots:
-	void externalChange(int row, int column, int count, int item_type, const char * img_path);
+	void externalChange(const IG_Net_Slot &slot_data);
 signals:
 	void slotChanged(IG_Slot * pSlot);
 	void preChangeItem(IG_Slot * pSlot, QString snd); //можно все свойства итема эмитить или вообще копию

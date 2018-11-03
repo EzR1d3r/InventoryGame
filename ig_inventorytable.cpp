@@ -64,14 +64,9 @@ void IG_InventoryTable::clear()
 			getSlot(r, c)->clear();
 }
 
-void IG_InventoryTable::externalChange(int row, int column, int count, int item_type, const char *img_path)
+void IG_InventoryTable::externalChange(const IG_Net_Slot& slot_data)
 {
-//	getSlot(row, column)->externalChange(count, static_cast<Fruit>(item_type), QString(img_path));
-	Q_UNUSED(row);
-	Q_UNUSED(column);
-	Q_UNUSED(count);
-	Q_UNUSED(item_type);
-	Q_UNUSED(img_path);
+	getSlot(slot_data.row, slot_data.column)->externalChange(slot_data);
 }
 
 IG_Slot *IG_InventoryTable::getSlot(int row, int column)
