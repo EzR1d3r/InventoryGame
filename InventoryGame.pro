@@ -31,7 +31,8 @@ SOURCES += \
     ig_databasemanager.cpp \
     ig_MainWidget.cpp \
     ig_MainMenu.cpp \
-    ig_network.cpp
+    ig_network.cpp \
+    ig_utils.cpp
 
 HEADERS += \
     ig_inventorytable.h \
@@ -41,7 +42,8 @@ HEADERS += \
     ig_MainWidget.h \
     ig_MainMenu.h \
     ig_consts.h \
-    ig_network.h
+    ig_network.h \
+    ig_utils.h
 
 FORMS += \
         ig_mainwidget.ui \

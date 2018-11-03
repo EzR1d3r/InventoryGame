@@ -8,6 +8,7 @@
 #include <ig_item.h>
 #include <ig_slot.h>
 #include <ig_network.h>
+#include <ig_utils.h>
 
 IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_MainWidget)
 {
@@ -25,14 +26,14 @@ IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_M
 	connect(mm, mm->close_mm, this, setEnabled);
 	connect(ui->twInventory, ui->twInventory->preChangeItem, this, playSnd);
 
-	QString dbPath = QDir(QCoreApplication::applicationDirPath() + "/../..").absolutePath() + "/sqlite/inv_game.sqlite";
-	db.connectSQLiteDB( dbPath );
+//	QString dbPath = QDir(QCoreApplication::applicationDirPath() + "/../..").absolutePath() + "/sqlite/inv_game.sqlite";
+	db.connectSQLiteDB( IG_Utils::absPath( DB_PATH ) );
 	db.loadAllItemsTo( ui->twStore );
 }
 
 IG_MainWidget::~IG_MainWidget()
 {
-//	db.disconnectSQLiteDB();
+	db.disconnectSQLiteDB();
 	delete __server;
 	delete __client;
 	delete mm;
