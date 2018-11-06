@@ -2,6 +2,8 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 
+#define DEF_PORT 1313
+
 class IG_Slot;
 class IG_Net_Slot;
 
@@ -10,6 +12,7 @@ class IG_Server : public QTcpServer
 	Q_OBJECT
 public:
 	IG_Server();
+	~IG_Server();
 	void startServer();
 	void stopServer();
 	void incomingConnection(qintptr socketDescriptor);
@@ -29,7 +32,9 @@ class IG_Client: public QObject
 	Q_OBJECT
 	public:
 		IG_Client();
-		void stopClient();
+		~IG_Client();
+		void connectToHost(const QString &hostName, quint16 port = DEF_PORT);
+		void disconnectFromHost();
 	signals:
 		void newData(const IG_Net_Slot& slot_data);
 	private:

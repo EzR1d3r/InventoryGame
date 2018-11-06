@@ -15,8 +15,8 @@ public:
 	inline const QStack<IG_Item>& getItems() const {return __items;}
 	inline IG_InventoryTable * getParent() const {return __parent;}
 	inline IG_Item& getTop (){ return __items.top(); }
-	inline QString getTopImg () const { return __items.top().getImg(); }
-	inline QString getTopSnd () const { return __items.top().getSnd(); }
+	inline QString getTopImg () const { return __items.count() ? __items.top().getImg() : "" ; }
+	inline QString getTopSnd () const { return __items.count() ? __items.top().getSnd() : "" ; }
 	inline bool isInfinite() const { return __infinite;}
 
 	void tryStack (IG_Slot *pSlot );

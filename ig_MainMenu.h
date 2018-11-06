@@ -11,7 +11,7 @@ class IG_MainMenu : public QWidget
 {
 	Q_OBJECT
 public:
-	explicit IG_MainMenu(QWidget *parent = 0);
+	explicit IG_MainMenu(QWidget *parent = nullptr);
 	~IG_MainMenu();
 signals:
 	void close_mm(bool);

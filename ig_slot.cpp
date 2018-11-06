@@ -65,6 +65,7 @@ void IG_Slot::externalChange(const IG_Net_Slot& slot_data)
 	setTextAlignment (Qt::AlignRight | Qt::AlignBottom);
 	setIcon( QIcon() );
 	setIcon( QIcon( slot_data.img_path) );
+	emit __parent->preChangeItem(this, slot_data.snd_path);
 }
 
 void IG_Slot::update()
@@ -79,11 +80,8 @@ void IG_Slot::update()
 IG_Net_Slot::IG_Net_Slot(const IG_Slot *pSlot):row(pSlot->row()),
 						column(pSlot->column()), count(pSlot->getCount())
 {
-	qDebug() << "&&&" << pSlot->getTopImg() << pSlot->getTopSnd();
 	img_path = pSlot->getTopImg();
 	snd_path = pSlot->getTopSnd();
-
-	qDebug() << "???" << img_path << snd_path;
 }
 
 QDataStream &operator<<(QDataStream &out, const IG_Net_Slot &slot)

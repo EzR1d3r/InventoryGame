@@ -27,7 +27,9 @@ private slots:
 	void playSnd(IG_Slot * pSlot, QString snd);
 
 	void becomeServer();
-	void becomeClient();
+	void becomeClient();	
+	void on_pbDisconnect_clicked();
+	void on_pbConnect_clicked();
 private:
 	IG_DataBaseManager db;
 	Ui::IG_MainWidget *ui;

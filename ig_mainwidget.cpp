@@ -89,6 +89,7 @@ void IG_MainWidget::becomeServer()
 
 	ui->lbRole->setText( "SERVER" );
 	__network_role = NetworkRole::Server;
+	ui->gbClientControls->setEnabled(0);
 }
 
 void IG_MainWidget::becomeClient()
@@ -111,6 +112,17 @@ void IG_MainWidget::becomeClient()
 	ui->twInventory->setDragDropMode( QAbstractItemView::NoDragDrop );
 	ui->lbRole->setText( "CLIENT" );
 	__network_role = NetworkRole::Client;
+}
+
+void IG_MainWidget::on_pbDisconnect_clicked()
+{
+	__client->disconnectFromHost();
+}
+
+void IG_MainWidget::on_pbConnect_clicked()
+{
+	QStringList addr = ui->leHostAddress->text().split(":");
+	__client->connectToHost(addr[0], addr[1].toUShort());
 }
 
 void IG_MainWidget::show()
