@@ -2,7 +2,7 @@
 #include <QCoreApplication>
 #include <QDir>
 #include "ig_utils.h"
-#define DEBUG 1
+#define DEBUG 0
 
 using namespace IG_Utils;
 

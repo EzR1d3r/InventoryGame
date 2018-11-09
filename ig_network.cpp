@@ -9,12 +9,10 @@
 
 IG_Server::IG_Server()
 {
-	__socket = new QTcpSocket(this);
 }
 
 IG_Server::~IG_Server()
 {
-	delete __socket;
 }
 
 void IG_Server::startServer()
@@ -25,31 +23,34 @@ void IG_Server::startServer()
 
 void IG_Server::stopServer()
 {
-	if (__socket)
+	for ( auto socket: __sockets )
 	{
-		__socket->disconnectFromHost();
+		socket->disconnectFromHost();
+		delete  socket;
 	}
+	__sockets.clear();
 }
 
 void IG_Server::incomingConnection(qintptr socketDescriptor)
 {
 	qDebug() << "incomingConnection";
-//	if (__socket) return; // ограничение одним подключением
-	__socket->setSocketDescriptor( socketDescriptor );
+	QTcpSocket * socket = new QTcpSocket(this);
+	socket->setSocketDescriptor( socketDescriptor );
+	__sockets << socket;
 
-	connect(__socket, __socket->readyRead, this, socketReady);
-	connect(__socket, __socket->disconnected, this, socketDisconnected);
+	connect(socket, socket->readyRead, this, socketReady);
+	connect(socket, socket->disconnected, this, socketDisconnected);
 }
 
 void IG_Server::slotChanged(const IG_Slot * pSlot)
 {
-	if (!__socket) return;
-	__socket->write( prepareData( pSlot ) );
+	for ( auto socket: __sockets )
+		socket->write( prepareData( pSlot ) );
 }
 
 QByteArray IG_Server::prepareData(const IG_Slot *pSlot)
 {
-//	qDebug() << "Prepare data";
+	qDebug() << "Prepare data";
 	QByteArray data;
 	QDataStream out(&data, QIODevice::WriteOnly);
 	IG_Net_Slot slot_data( pSlot );
@@ -70,19 +71,16 @@ void IG_Server::socketDisconnected()
 
 //Client
 
-IG_Client::IG_Client() {}
-
-IG_Client::~IG_Client()
-{
-	delete __socket;
-}
-
-void IG_Client::connectToHost(const QString &hostName, quint16 port)
+IG_Client::IG_Client()
 {
 	__socket = new QTcpSocket(this);
 
 	connect(__socket, __socket->readyRead, this, socketReady);
 	connect(__socket, __socket->disconnected, this, socketDisconnected);
+}
+
+void IG_Client::connectToHost(const QString &hostName, quint16 port)
+{
 	__socket->connectToHost( hostName, port );
 }
 
@@ -93,7 +91,7 @@ void IG_Client::disconnectFromHost()
 
 void IG_Client::unpackData(QByteArray data)
 {
-//	qDebug() << "Unpack data";
+	qDebug() << "Unpack data";
 	QDataStream in(&data, QIODevice::ReadOnly);
 
 	IG_Net_Slot slot_data;
@@ -114,7 +112,5 @@ void IG_Client::socketReady()
 
 void IG_Client::socketDisconnected()
 {
-	disconnect(__socket,nullptr,nullptr,nullptr);
-	delete __socket;
 	qDebug() << "Client: Socket disconnected";
 }

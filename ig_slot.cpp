@@ -70,6 +70,7 @@ void IG_Slot::externalChange(const IG_Net_Slot& slot_data)
 
 void IG_Slot::update()
 {
+	qDebug() << "update slot";
 	setText( QString::number( getCount() ) );
 	setTextAlignment (Qt::AlignRight | Qt::AlignBottom);
 	setIcon( QIcon() );

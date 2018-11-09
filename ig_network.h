@@ -23,7 +23,7 @@ private:
 	void socketReady();
 	void socketDisconnected();
 
-	QTcpSocket * __socket = nullptr;
+	QVector <QTcpSocket *> __sockets;
 };
 
 
@@ -32,7 +32,7 @@ class IG_Client: public QObject
 	Q_OBJECT
 	public:
 		IG_Client();
-		~IG_Client();
+		~IG_Client(){}
 		void connectToHost(const QString &hostName, quint16 port = DEF_PORT);
 		void disconnectFromHost();
 	signals:
