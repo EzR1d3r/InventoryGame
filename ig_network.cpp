@@ -50,7 +50,7 @@ void IG_Server::slotChanged(const IG_Slot * pSlot)
 
 QByteArray IG_Server::prepareData(const IG_Slot *pSlot)
 {
-	qDebug() << "Prepare data";
+//	qDebug() << "Prepare data";
 	QByteArray data;
 	QDataStream out(&data, QIODevice::WriteOnly);
 	IG_Net_Slot slot_data( pSlot );
@@ -91,13 +91,15 @@ void IG_Client::disconnectFromHost()
 
 void IG_Client::unpackData(QByteArray data)
 {
-	qDebug() << "Unpack data";
+//	qDebug() << "Unpack data";
 	QDataStream in(&data, QIODevice::ReadOnly);
 
-	IG_Net_Slot slot_data;
-	in >> slot_data;
-
-	emit newData(slot_data);
+	while ( !in.atEnd() )
+	{
+		IG_Net_Slot slot_data;
+		in >> slot_data;
+		emit newData(slot_data);
+	}
 }
 
 void IG_Client::socketReady()
