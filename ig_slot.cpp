@@ -45,14 +45,15 @@ void IG_Slot::hitLast()
 {
 	if (__items.isEmpty() || __infinite) return;
 
-	uint top_state = __items.top().getState();
+	__items.top().setState( __items.top().getState() -1 );
 	QString snd = getTop().getSnd ();
-	if (!top_state)
+	if ( __items.top().getState() == -1 )
+	{
+		emit __parent->slotChanged( this );
 		__items.pop();
-	else
-		__items.top().setState( __items.top().getState() -1 );
+	}
 
-	emit __parent->preChangeItem(this, snd);
+	emit __parent->slotItemChanged(this, snd);
 	//по идее слот должен свой сигнал эмитить,
 	//таблица ловить и эмитить свой, для краткости сразу через __parent
 	update();
@@ -65,7 +66,7 @@ void IG_Slot::externalChange(const IG_Net_Slot& slot_data)
 	setTextAlignment (Qt::AlignRight | Qt::AlignBottom);
 	setIcon( QIcon() );
 	setIcon( QIcon( slot_data.img_path) );
-	emit __parent->preChangeItem(this, slot_data.snd_path);
+	emit __parent->slotItemChanged(this, slot_data.snd_path);
 }
 
 void IG_Slot::update()
@@ -74,8 +75,11 @@ void IG_Slot::update()
 	setTextAlignment (Qt::AlignRight | Qt::AlignBottom);
 	setIcon( QIcon() );
 	if ( getCount() ) setIcon( QIcon( __items.top().getImg()) );
+	qDebug() << getTop().getState();
 	emit __parent->slotChanged( this );
 }
+
+//Net Slot
 
 IG_Net_Slot::IG_Net_Slot(const IG_Slot *pSlot):row(pSlot->row()),
 						column(pSlot->column()), count(pSlot->getCount())

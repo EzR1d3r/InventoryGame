@@ -42,18 +42,18 @@ void IG_DataBaseManager::loadAllItemsTo(IG_InventoryTable *pTable)
 		item_params params;
 
 		params.__idx = SqlQuery.record().value( item_idx_idx ).toUInt();
-		params.__states.insert( SqlQuery.record().value( state_idx ).toUInt(),
+		params.__states.insert( SqlQuery.record().value( state_idx ).toInt(),
 								SqlQuery.record().value( img_path_idx ).toString()
 								);
-		params.__snds.insert( SqlQuery.record().value( state_idx ).toUInt(),
+		params.__snds.insert( SqlQuery.record().value( state_idx ).toInt(),
 							  SqlQuery.record().value( snd_path_idx ).toString());
 
 		if( all_items_params.contains( params.__idx ) )
 			{
-				all_items_params[params.__idx].__states.insert(SqlQuery.record().value( state_idx ).toUInt(),
+				all_items_params[params.__idx].__states.insert(SqlQuery.record().value( state_idx ).toInt(),
 															   SqlQuery.record().value( img_path_idx ).toString());
 
-				all_items_params[params.__idx].__snds.insert(SqlQuery.record().value( state_idx ).toUInt(),
+				all_items_params[params.__idx].__snds.insert(SqlQuery.record().value( state_idx ).toInt(),
 															   SqlQuery.record().value( snd_path_idx ).toString());
 			}
 		else
@@ -74,7 +74,7 @@ void IG_DataBaseManager::loadAllItemsTo(IG_InventoryTable *pTable)
 
 	for (auto params:all_items_params)
 	{
-		QList<uint> all_states = params.__states.keys();
+		QList<int> all_states = params.__states.keys();
 		auto itr_max_state = std::max_element(all_states.begin(), all_states.end());
 		params.__max_state = *itr_max_state;
 		params.__state = params.__max_state;

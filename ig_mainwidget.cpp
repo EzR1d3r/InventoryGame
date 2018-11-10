@@ -24,7 +24,7 @@ IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_M
 	connect(mm, mm->exit_game, this, exit);
 	connect(mm, mm->new_game, this, new_game);
 	connect(mm, mm->close_mm, this, setEnabled);
-	connect(ui->twInventory, ui->twInventory->preChangeItem, this, playSnd);
+	connect(ui->twInventory, ui->twInventory->slotItemChanged, this, playSnd);
 
 //	QString dbPath = QDir(QCoreApplication::applicationDirPath() + "/../..").absolutePath() + "/sqlite/inv_game.sqlite";
 	db.connectSQLiteDB( IG_Utils::absPath( DB_PATH ) );
@@ -82,6 +82,8 @@ void IG_MainWidget::becomeServer()
 //	}
 
 //	db.connectInventory( ui->twInventory );
+
+	disconnect(ui->twInventory, nullptr,nullptr,nullptr);
 
 	__server = new IG_Server();
 	connect( ui->twInventory, ui->twInventory->slotChanged, __server, __server->slotChanged);

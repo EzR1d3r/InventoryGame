@@ -33,6 +33,8 @@ private:
 	IG_InventoryTable * __parent;
 };
 
+//класс для передачи информации о состоянии слота по сетке
+
 class IG_Net_Slot
 {
 public:

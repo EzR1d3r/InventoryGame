@@ -12,7 +12,7 @@ IG_Item::IG_Item(const item_params &params)
 	__mutable		= params.__mutable;
 }
 
-void IG_Item::setState(uint state)
+void IG_Item::setState(int state)
 {
 	if (state > __max_state || !__mutable)
 		return;

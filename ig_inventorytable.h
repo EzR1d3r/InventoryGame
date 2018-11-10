@@ -22,5 +22,5 @@ public slots:
 	void externalChange(const IG_Net_Slot &slot_data);
 signals:
 	void slotChanged(IG_Slot * pSlot);
-	void preChangeItem(IG_Slot * pSlot, QString snd); //можно все свойства итема эмитить или вообще копию
+	void slotItemChanged(IG_Slot * pSlot, QString snd); //можно все свойства итема эмитить или вообще копию
 };
