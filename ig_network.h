@@ -23,7 +23,7 @@ private:
 	void socketReady();
 	void socketDisconnected();
 
-	QVector <QTcpSocket *> __sockets;
+	QSet <QTcpSocket *> __sockets;
 };
 
 

@@ -26,14 +26,13 @@ void IG_Server::stopServer()
 	for ( auto socket: __sockets )
 	{
 		socket->disconnectFromHost();
-		delete  socket;
+		socket->deleteLater();
 	}
 	__sockets.clear();
 }
 
 void IG_Server::incomingConnection(qintptr socketDescriptor)
 {
-	qDebug() << "incomingConnection";
 	QTcpSocket * socket = new QTcpSocket(this);
 	socket->setSocketDescriptor( socketDescriptor );
 	__sockets << socket;
@@ -45,7 +44,9 @@ void IG_Server::incomingConnection(qintptr socketDescriptor)
 void IG_Server::slotChanged(const IG_Slot * pSlot)
 {
 	for ( auto socket: __sockets )
+	{
 		socket->write( prepareData( pSlot ) );
+	}
 }
 
 QByteArray IG_Server::prepareData(const IG_Slot *pSlot)
@@ -65,7 +66,9 @@ void IG_Server::socketReady()
 
 void IG_Server::socketDisconnected()
 {
-	qDebug() << "Server: Socket disconnected";
+	qDebug() << "Server: Socket disconnected ";
+	__sockets.remove( dynamic_cast<QTcpSocket*>( sender() ) );
+	sender()->deleteLater();
 }
 
 

@@ -75,7 +75,6 @@ void IG_Slot::update()
 	setTextAlignment (Qt::AlignRight | Qt::AlignBottom);
 	setIcon( QIcon() );
 	if ( getCount() ) setIcon( QIcon( __items.top().getImg()) );
-	qDebug() << getTop().getState();
 	emit __parent->slotChanged( this );
 }
 
