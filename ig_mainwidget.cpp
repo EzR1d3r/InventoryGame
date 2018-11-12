@@ -86,7 +86,7 @@ void IG_MainWidget::becomeServer()
 	disconnect(ui->twInventory, nullptr,nullptr,nullptr);
 
 	__server = new IG_Server();
-	connect( ui->twInventory, ui->twInventory->slotChanged, __server, __server->slotChanged);
+	connect( ui->twInventory, ui->twInventory->slotChanged, __server, __server->sendSingleSlot);
 	__server->startServer();
 
 	ui->lbRole->setText( "SERVER" );
