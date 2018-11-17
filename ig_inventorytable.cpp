@@ -64,6 +64,15 @@ void IG_InventoryTable::clear()
 			getSlot(r, c)->clear();
 }
 
+QVector<IG_Slot *> IG_InventoryTable::getSlots()
+{
+	QVector<IG_Slot *> vec;
+	for (int r = 0; r < rowCount(); r++)
+		for (int c = 0; c < columnCount(); c++)
+			vec.append( dynamic_cast<IG_Slot*>( item(r,c) ) );
+	return vec;
+}
+
 void IG_InventoryTable::externalChange(const IG_Net_Slot& slot_data)
 {
 	getSlot(slot_data.row, slot_data.column)->externalChange(slot_data);

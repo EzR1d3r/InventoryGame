@@ -17,8 +17,8 @@ public:
 	void stopServer();
 	void incomingConnection(qintptr socketDescriptor);
 public slots:
-	void sendSingleSlot(const IG_Slot *pSlot);
-	void sendSlots(const QVector<IG_Slot*> Slots);
+	void sendSingleSlotToAll(const IG_Slot *pSlot);
+	void sendSlots(const QVector<IG_Slot*> Slots, QTcpSocket *socket);
 private:
 	QByteArray prepareData(const IG_Slot * pSlot);
 	void socketReady();

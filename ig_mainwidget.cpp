@@ -86,7 +86,7 @@ void IG_MainWidget::becomeServer()
 	disconnect(ui->twInventory, nullptr,nullptr,nullptr);
 
 	__server = new IG_Server();
-	connect( ui->twInventory, ui->twInventory->slotChanged, __server, __server->sendSingleSlot);
+	connect( ui->twInventory, ui->twInventory->slotChanged, __server, __server->sendSingleSlotToAll);
 	__server->startServer();
 
 	ui->lbRole->setText( "SERVER" );
@@ -125,6 +125,10 @@ void IG_MainWidget::on_pbConnect_clicked()
 {
 	QStringList addr = ui->leHostAddress->text().split(":");
 	__client->connectToHost(addr[0], addr[1].toUShort());
+}
+
+void IG_MainWidget::incomingServerConnection()
+{
 }
 
 void IG_MainWidget::show()

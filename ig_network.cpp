@@ -41,18 +41,22 @@ void IG_Server::incomingConnection(qintptr socketDescriptor)
 	connect(socket, socket->disconnected, this, socketDisconnected);
 }
 
-void IG_Server::sendSingleSlot(const IG_Slot * pSlot)
+void IG_Server::sendSingleSlotToAll(const IG_Slot * pSlot)
 {
+	QByteArray data = prepareData( pSlot );
 	for ( auto socket: __sockets )
 	{
-		socket->write( prepareData( pSlot ) );
+		socket->write( data );
 	}
 }
 
-void IG_Server::sendSlots(const QVector<IG_Slot *> Slots)
+void IG_Server::sendSlots(const QVector<IG_Slot *> Slots, QTcpSocket * socket)
 {
-	Q_UNUSED(Slots);
-	qDebug() << "Server: sendSlots";
+	for (auto pSlot: Slots)
+	{
+		QByteArray data = prepareData( pSlot );
+		socket->write(data);
+	}
 }
 
 QByteArray IG_Server::prepareData(const IG_Slot *pSlot)

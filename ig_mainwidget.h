@@ -30,6 +30,7 @@ private slots:
 	void becomeClient();	
 	void on_pbDisconnect_clicked();
 	void on_pbConnect_clicked();
+	void incomingServerConnection();
 private:
 	IG_DataBaseManager db;
 	Ui::IG_MainWidget *ui;
