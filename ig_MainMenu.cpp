@@ -2,8 +2,7 @@
 #include "ui_ig_mainmenu.h"
 #include "ig_MainWidget.h"
 
-IG_MainMenu::IG_MainMenu(QWidget *parent):
-	QWidget(parent), ui(new Ui::ig_MainMenu)
+IG_MainMenu::IG_MainMenu(QWidget *parent): QWidget(parent), ui(new Ui::ig_MainMenu)
 {
 	ui->setupUi(this);
 }

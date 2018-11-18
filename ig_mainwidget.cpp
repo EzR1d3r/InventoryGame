@@ -20,10 +20,11 @@ IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_M
 	ui->twInventory->fillBySlots();
 
 	//Main menu widget
-	mm = new IG_MainMenu();
-	connect(mm, mm->exit_game, this, exit);
-	connect(mm, mm->new_game, this, new_game);
-	connect(mm, mm->close_mm, this, setEnabled);
+	__main_menu = new IG_MainMenu();
+	__net_manager = new IG_NetworkManager(ui->twInventory);
+	connect(__main_menu, __main_menu->exit_game, this, exit);
+	connect(__main_menu, __main_menu->new_game, this, new_game);
+	connect(__main_menu, __main_menu->close_mm, this, setEnabled);
 	connect(ui->twInventory, ui->twInventory->slotItemChanged, this, playSnd);
 
 //	QString dbPath = QDir(QCoreApplication::applicationDirPath() + "/../..").absolutePath() + "/sqlite/inv_game.sqlite";
@@ -34,16 +35,15 @@ IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_M
 IG_MainWidget::~IG_MainWidget()
 {
 	db.disconnectSQLiteDB();
-	delete __server;
-	delete __client;
-	delete mm;
+	delete __net_manager;
+	delete __main_menu;
 	delete ui;
 }
 
 void IG_MainWidget::on_btnMainMenu_clicked()
 {
 	setEnabled(false);
-	mm->show();
+	__main_menu->show();
 }
 
 void IG_MainWidget::new_game(NetworkRole role)
@@ -68,67 +68,28 @@ void IG_MainWidget::playSnd(IG_Slot *pSlot, QString snd)
 
 void IG_MainWidget::becomeServer()
 {
-	if (__network_role == NetworkRole::Server) return;
-
-//	if (__network_role == NetworkRole::Client) // если до этого был сервером
-//	{
-//		disconnect(__client, __client->newData, 0, 0);
-//		__client->stopClient();
-//		delete __client;
-//		__client = 0;
-
-//		ui->twStore->setEnabled(true);
-//		ui->twInventory->setDragDropMode( QAbstractItemView::DragDrop );
-//	}
-
-//	db.connectInventory( ui->twInventory );
-
-	disconnect(ui->twInventory, nullptr,nullptr,nullptr);
-
-	__server = new IG_Server();
-	connect( ui->twInventory, ui->twInventory->slotChanged, __server, __server->sendSingleSlotToAll);
-	__server->startServer();
-
 	ui->lbRole->setText( "SERVER" );
-	__network_role = NetworkRole::Server;
 	ui->gbClientControls->setEnabled(0);
+	__net_manager->becomeServer();
 }
 
 void IG_MainWidget::becomeClient()
 {
-	if (__network_role == NetworkRole::Client) return;
-
-//	if (__network_role == NetworkRole::Server) // если до этого был сервером
-//	{
-//		__server->stopServer();
-//		delete __server;
-//		__server = 0;
-
-//		disconnect(ui->twInventory, ui->twInventory->slotChanged,0 ,0);
-//		db.diconnectInventory( ui->twInventory );
-//	}
-
-	__client = new IG_Client();
-	connect(__client, __client->newData, ui->twInventory, ui->twInventory->externalChange);
 	ui->twStore->setEnabled(false);
 	ui->twInventory->setDragDropMode( QAbstractItemView::NoDragDrop );
 	ui->lbRole->setText( "CLIENT" );
-	__network_role = NetworkRole::Client;
+	__net_manager->becomeClient();
 }
 
 void IG_MainWidget::on_pbDisconnect_clicked()
 {
-	__client->disconnectFromHost();
+	__net_manager->disconnectFromHost();
 }
 
 void IG_MainWidget::on_pbConnect_clicked()
 {
 	QStringList addr = ui->leHostAddress->text().split(":");
-	__client->connectToHost(addr[0], addr[1].toUShort());
-}
-
-void IG_MainWidget::incomingServerConnection()
-{
+	__net_manager->connectToHost(addr[0], addr[1].toUShort());
 }
 
 void IG_MainWidget::show()

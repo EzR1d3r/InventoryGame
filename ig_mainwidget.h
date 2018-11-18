@@ -4,8 +4,7 @@
 #include "ig_consts.h"
 
 class IG_MainMenu;
-class IG_Server;
-class IG_Client;
+class IG_NetworkManager;
 
 namespace Ui
 {
@@ -27,15 +26,13 @@ private slots:
 	void playSnd(IG_Slot * pSlot, QString snd);
 
 	void becomeServer();
-	void becomeClient();	
+	void becomeClient();
+
 	void on_pbDisconnect_clicked();
 	void on_pbConnect_clicked();
-	void incomingServerConnection();
 private:
 	IG_DataBaseManager db;
 	Ui::IG_MainWidget *ui;
-	IG_MainMenu * mm;
-	IG_Server * __server = nullptr;
-	IG_Client * __client = nullptr;
-	NetworkRole __network_role = NetworkRole::None;
+	IG_MainMenu * __main_menu;
+	IG_NetworkManager * __net_manager;
 };
