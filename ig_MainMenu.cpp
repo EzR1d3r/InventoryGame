@@ -18,8 +18,8 @@ void IG_MainMenu::on_btnNewGame_clicked()
 		emit new_game(NetworkRole::Server);
 	else
 		emit new_game(NetworkRole::Client);
-	ui->rbClient->setEnabled(false);
-	ui->rbServer->setEnabled(false);
+//	ui->rbClient->setEnabled(false);
+//	ui->rbServer->setEnabled(false);
 	close();
 }
 

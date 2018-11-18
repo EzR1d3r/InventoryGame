@@ -21,10 +21,13 @@ void IG_Server::stopServer()
 		socket->deleteLater();
 	}
 	__sockets.clear();
+
+	close();
 }
 
 void IG_Server::incomingConnection(qintptr socketDescriptor)
 {
+	qDebug() << "incomingConnection: " << socketDescriptor;
 	QTcpSocket * socket = new QTcpSocket(this);
 	socket->setSocketDescriptor( socketDescriptor );
 	__sockets << socket;
@@ -152,7 +155,10 @@ void IG_NetworkManager::unpackData(QByteArray data)
 void IG_NetworkManager::becomeServer()
 {
 	if (__network_role == NetworkRole::Server) return;
+	//если ранее был клиентом
+	QObject::disconnect(__client, __client->newData, nullptr, nullptr);
 
+	//сервер
 	QObject::connect( __inventory, __inventory->slotChanged,
 					  this, this->sendSlotToAllClients);
 	QObject::connect( __server, __server->newConnection,
@@ -165,7 +171,14 @@ void IG_NetworkManager::becomeServer()
 void IG_NetworkManager::becomeClient()
 {
 	if (__network_role == NetworkRole::Client) return;
+	//если ранее был сервером
+	QObject::disconnect( __inventory, __inventory->slotChanged,
+					  nullptr, nullptr);
+	QObject::disconnect( __server, __server->newConnection,
+					  nullptr, nullptr);
+	__server->stopServer();
 
+	//клиент
 	QObject::connect(__client, __client->newData, this, this->unpackData);
 	__network_role = NetworkRole::Client;
 }

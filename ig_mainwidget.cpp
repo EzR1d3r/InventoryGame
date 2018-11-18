@@ -55,7 +55,7 @@ void IG_MainWidget::new_game(NetworkRole role)
 		becomeClient();
 
 	setEnabled(true);
-//	ui->twInventory->clear();
+	ui->twInventory->clear();
 
 	QWidget::show();
 }
@@ -70,14 +70,17 @@ void IG_MainWidget::becomeServer()
 {
 	ui->lbRole->setText( "SERVER" );
 	ui->gbClientControls->setEnabled(0);
+	ui->twStore->setEnabled(true);
+	ui->twInventory->setDragDropMode( QAbstractItemView::DragDrop );
 	__net_manager->becomeServer();
 }
 
 void IG_MainWidget::becomeClient()
 {
+	ui->lbRole->setText( "CLIENT" );
+	ui->gbClientControls->setEnabled(1);
 	ui->twStore->setEnabled(false);
 	ui->twInventory->setDragDropMode( QAbstractItemView::NoDragDrop );
-	ui->lbRole->setText( "CLIENT" );
 	__net_manager->becomeClient();
 }
 
