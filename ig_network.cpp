@@ -15,13 +15,12 @@ void IG_Server::startServer()
 
 void IG_Server::stopServer()
 {
-	for ( auto socket: __sockets )
-	{
+	//необходимо делать копию __sockets, тк сокеты при дисконнекте удаляются из __sockets
+	QSet<QTcpSocket*> sockets = __sockets;
+	for ( auto socket: sockets )
 		socket->disconnectFromHost();
-		socket->deleteLater();
-	}
 	__sockets.clear();
-
+	__queue_sockets.clear();
 	close();
 }
 
@@ -67,9 +66,10 @@ void IG_Server::socketRead()
 
 void IG_Server::socketDisconnected()
 {
+	QTcpSocket* socket = dynamic_cast<QTcpSocket*>( sender() );
+	__sockets.remove( socket );
+	socket->deleteLater();
 	qDebug() << "Server: Socket disconnected ";
-	__sockets.remove( dynamic_cast<QTcpSocket*>( sender() ) );
-	sender()->deleteLater();
 }
 
 
