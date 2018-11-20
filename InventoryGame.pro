@@ -32,7 +32,8 @@ SOURCES += \
     ig_MainWidget.cpp \
     ig_MainMenu.cpp \
     ig_network.cpp \
-    ig_utils.cpp
+    ig_utils.cpp \
+    ig_pyextension.cpp
 
 HEADERS += \
     ig_inventorytable.h \
@@ -43,7 +44,8 @@ HEADERS += \
     ig_MainMenu.h \
     ig_consts.h \
     ig_network.h \
-    ig_utils.h
+    ig_utils.h \
+    ig_pyextension.h
 
 FORMS += \
         ig_mainwidget.ui \
@@ -51,3 +53,17 @@ FORMS += \
 
 RESOURCES += \
     sourses.qrc
+
+DISTFILES += \
+    pyscripts/items_interaction.py
+
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target
+
+win32:CONFIG(release, debug|release): LIBS += -L'C:/Program Files (x86)/Python37-32/libs/' -lpython37
+else:win32:CONFIG(debug, debug|release): LIBS += -L'C:/Program Files (x86)/Python37-32/libs/' -lpython37d
+
+INCLUDEPATH += 'C:/Program Files (x86)/Python37-32/include'
+DEPENDPATH += 'C:/Program Files (x86)/Python37-32/include'
