@@ -67,3 +67,5 @@ else:win32:CONFIG(debug, debug|release): LIBS += -L'C:/Program Files (x86)/Pytho
 
 INCLUDEPATH += 'C:/Program Files (x86)/Python37-32/include'
 DEPENDPATH += 'C:/Program Files (x86)/Python37-32/include'
+
+CONFIG += no_keywords

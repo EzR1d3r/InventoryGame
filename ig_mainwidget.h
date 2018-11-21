@@ -20,7 +20,7 @@ public:
 	~IG_MainWidget();
 
 	void show();
-private slots:
+private Q_SLOT:
 	void on_btnMainMenu_clicked();
 	void new_game(NetworkRole role);
 	void playSnd(IG_Slot * pSlot, QString snd);
