@@ -13,13 +13,13 @@ class IG_MainMenu : public QWidget
 public:
 	explicit IG_MainMenu(QWidget *parent = nullptr);
 	~IG_MainMenu();
-signals:
+Q_SIGNALS:
 	void close_mm(bool);
 	void new_game(NetworkRole);
 	void exit_game(int i);
 protected:
 	void closeEvent(QCloseEvent *event);
-private slots:
+private Q_SLOTS:
 	void on_btnNewGame_clicked();
 	void on_btnExit_clicked();
 private:

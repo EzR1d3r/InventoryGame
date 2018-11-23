@@ -17,7 +17,7 @@ public:
 	void startServer();
 	void stopServer();
 	void incomingConnection(qintptr socketDescriptor);
-public slots:
+public Q_SLOTS:
 	void sendDataToAll(QByteArray data);
 	void sendData(QByteArray data, QTcpSocket *socket);
 	void sendAndDeq(QByteArray data, bool dequeue = true);
@@ -42,7 +42,7 @@ class IG_Client: public QObject
 		~IG_Client(){}
 		void connectToHost(const QString &hostName, quint16 port = DEF_PORT);
 		void disconnectFromHost();
-	signals:
+	Q_SIGNALS:
 		void newData(QByteArray data);
 	private:
 		void socketRead();
@@ -62,9 +62,9 @@ public:
 
 	void connectToHost(const QString &hostName, quint16 port = DEF_PORT);
 	void disconnectFromHost();
-public slots:
+public Q_SLOTS:
 	void sendSlotToAllClients(IG_Slot * pSlot);
-private slots:
+private Q_SLOTS:
 	void sendSlotsToNewClient();
 private:
 	QByteArray prepareData(const IG_Slot * pSlot);

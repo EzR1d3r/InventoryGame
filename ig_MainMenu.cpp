@@ -15,9 +15,9 @@ IG_MainMenu::~IG_MainMenu()
 void IG_MainMenu::on_btnNewGame_clicked()
 {
 	if (ui->rbServer->isChecked())
-		emit new_game(NetworkRole::Server);
+		Q_EMIT new_game(NetworkRole::Server);
 	else
-		emit new_game(NetworkRole::Client);
+		Q_EMIT new_game(NetworkRole::Client);
 //	ui->rbClient->setEnabled(false);
 //	ui->rbServer->setEnabled(false);
 	close();
@@ -25,12 +25,12 @@ void IG_MainMenu::on_btnNewGame_clicked()
 
 void IG_MainMenu::on_btnExit_clicked()
 {
-	emit exit_game(0);
+	Q_EMIT exit_game(0);
 	close();
 }
 
 void IG_MainMenu::closeEvent(QCloseEvent *event)
 {
 	Q_UNUSED(event);
-	emit close_mm(true);
+	Q_EMIT close_mm(true);
 }

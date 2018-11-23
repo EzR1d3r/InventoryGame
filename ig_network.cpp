@@ -100,7 +100,7 @@ void IG_Client::socketRead()
 	if (__socket && __socket->waitForConnected(500))
 		data = __socket->readAll();
 
-	emit newData(data);
+	Q_EMIT newData(data);
 }
 
 void IG_Client::socketDisconnected()

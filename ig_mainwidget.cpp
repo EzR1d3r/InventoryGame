@@ -9,6 +9,7 @@
 #include <ig_slot.h>
 #include <ig_network.h>
 #include <ig_utils.h>
+#include <ig_pyextension.h>
 
 IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_MainWidget)
 {
@@ -30,6 +31,11 @@ IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_M
 //	QString dbPath = QDir(QCoreApplication::applicationDirPath() + "/../..").absolutePath() + "/sqlite/inv_game.sqlite";
 	db.connectSQLiteDB( IG_Utils::absPath( DB_PATH ) );
 	db.loadAllItemsTo( ui->twStore );
+
+	IG_PyCaller py_caller;
+	py_caller.setPyModule("items_interaction");
+	int res = py_caller.callFunc("multi", 1, 100);
+	this->setWindowTitle( QString::number(res) );
 }
 
 IG_MainWidget::~IG_MainWidget()

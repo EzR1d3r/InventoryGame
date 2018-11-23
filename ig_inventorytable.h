@@ -21,7 +21,7 @@ public:
 	QVector<IG_Slot*> getSlots();
 public Q_SLOT:
 	void externalChange(const IG_Net_Slot &slot_data);
-signals:
+Q_SIGNALS:
 	void slotChanged(IG_Slot * pSlot);
 	void slotItemChanged(IG_Slot * pSlot, QString snd); //можно все свойства итема эмитить или вообще копию
 };
