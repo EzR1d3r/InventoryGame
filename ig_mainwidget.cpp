@@ -9,7 +9,6 @@
 #include <ig_slot.h>
 #include <ig_network.h>
 #include <ig_utils.h>
-#include "ig_pyextension.h"
 
 IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_MainWidget)
 {
@@ -39,11 +38,11 @@ IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_M
 
 //	IG_PyCaller py_caller;
 //	py_caller.setPyModule("items_interaction");
-//	qDebug() << "++++++++++++++++++++";
 //	IG_Item * pI1 = new IG_Item();
 //	IG_Item * pI2 = new IG_Item();
+//	qDebug() << "++++++++++++++++++++" << pI1->getState() << pI2->getState();
 
-//	int res = py_caller.callFunc("multi", pI1, pI2);
+//	py_caller.callFunc("multi", pI1, pI2);
 }
 
 IG_MainWidget::~IG_MainWidget()

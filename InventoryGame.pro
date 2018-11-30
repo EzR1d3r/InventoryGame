@@ -62,7 +62,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 win32:CONFIG(release, debug|release): LIBS += -L'C:/Program Files (x86)/Python37-32/libs/' -lpython37
-else:win32:CONFIG(debug, debug|release): LIBS += -L'C:/Program Files (x86)/Python37-32/libs/' -lpython37d
+else:win32:CONFIG(debug, debug|release): LIBS += -L'C:/Program Files (x86)/Python37-32/libs/' -lpython37
 
 INCLUDEPATH += 'C:/Program Files (x86)/Python37-32/include'
 DEPENDPATH += 'C:/Program Files (x86)/Python37-32/include'
@@ -71,7 +71,7 @@ CONFIG += no_keywords
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../boost/boost_1_68_0/mingw530_32/lib/ -llibboost_python37-mgw53-mt-d-x32-1_68.dll
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../boost/boost_1_68_0/mingw530_32/lib/ -llibboost_python37-mgw53-mt-d-x32-1_68.dlld
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../boost/boost_1_68_0/mingw530_32/lib/ -llibboost_python37-mgw53-mt-d-x32-1_68.dll
 else:unix:!macx: LIBS += -L$$PWD/../boost/boost_1_68_0/mingw530_32/lib/ -llibboost_python37-mgw53-mt-d-x32-1_68.dll
 
 INCLUDEPATH += $$PWD/../boost/boost_1_68_0/mingw530_32/include

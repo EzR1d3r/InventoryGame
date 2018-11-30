@@ -1,3 +1,4 @@
+#include "ig_pyextension.h"
 #include "ig_item.h"
 
 IG_Item::IG_Item(const item_params &params)
@@ -35,9 +36,12 @@ void IG_Item::interactWith(IG_Item &other)
 
 template<InteractionType type> void IG_Item::interactAs(IG_Item &other)
 {
-	if (other.getState())
-	{
-		setState (__state + 1); //через функцию, тк проверка на макс. стейт
-		other.setState( other.getState() - 1 );
-	}
+//	if (other.getState())
+//	{
+//		setState (__state + 1); //через функцию, тк проверка на макс. стейт
+//		other.setState( other.getState() - 1 );
+//	}
+	IG_PyCaller py_caller;
+	py_caller.setPyModule("items_interaction");
+	py_caller.callFunc("IncDec", this, &other);
 }

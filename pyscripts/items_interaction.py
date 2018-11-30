@@ -2,9 +2,11 @@
 # -*- coding: utf-8 -*-
 
 
-def multi(a, b):
-	# print(a.getState(), b.getState())
-	a.setState(123)
-	b.setState(456)
-	# print(a.getState(), b.getState())
-	return a
+def interact(a, b):
+	print(a.getInteractType(), b.getInteractType())
+
+
+def IncDec(self, other):
+	if other.getState():
+		self.setState( self.getState() + 1 )
+		other.setState( other.getState() - 1 )
