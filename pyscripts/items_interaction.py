@@ -3,4 +3,8 @@
 
 
 def multi(a, b):
-	return (a + b*2)
+	# print(a.getState(), b.getState())
+	a.setState(123)
+	b.setState(456)
+	# print(a.getState(), b.getState())
+	return a

@@ -9,7 +9,7 @@
 #include <ig_slot.h>
 #include <ig_network.h>
 #include <ig_utils.h>
-#include <ig_pyextension.h>
+#include "ig_pyextension.h"
 
 IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_MainWidget)
 {
@@ -32,10 +32,18 @@ IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_M
 	db.connectSQLiteDB( IG_Utils::absPath( DB_PATH ) );
 	db.loadAllItemsTo( ui->twStore );
 
-	IG_PyCaller py_caller;
-	py_caller.setPyModule("items_interaction");
-	int res = py_caller.callFunc("multi", 1, 100);
-	this->setWindowTitle( QString::number(res) );
+//	IG_PyCaller py_caller;
+//	py_caller.setPyModule("items_interaction");
+//	int res = py_caller.callFunc("multi", 1, 100);
+//	this->setWindowTitle( QString::number(res) );
+
+//	IG_PyCaller py_caller;
+//	py_caller.setPyModule("items_interaction");
+//	qDebug() << "++++++++++++++++++++";
+//	IG_Item * pI1 = new IG_Item();
+//	IG_Item * pI2 = new IG_Item();
+
+//	int res = py_caller.callFunc("multi", pI1, pI2);
 }
 
 IG_MainWidget::~IG_MainWidget()
