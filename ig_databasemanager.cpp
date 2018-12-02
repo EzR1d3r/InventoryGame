@@ -68,7 +68,7 @@ void IG_DataBaseManager::loadAllItemsTo(IG_InventoryTable *pTable)
 		int item_idx_idx	= SqlQuery.record().indexOf("item_idx");
 		int inct_type_idx	= SqlQuery.record().indexOf("inct_type");
 
-		all_items_params[ SqlQuery.record().value( item_idx_idx ).toUInt() ].__interact_type = (InteractionType)SqlQuery.record().value( inct_type_idx ).toUInt();
+		all_items_params[ SqlQuery.record().value( item_idx_idx ).toUInt() ].__interact_type = SqlQuery.record().value( inct_type_idx ).toUInt();
 	}
 
 

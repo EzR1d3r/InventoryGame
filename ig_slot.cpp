@@ -22,7 +22,7 @@ void IG_Slot::tryStack(IG_Slot *pSlot)
 		if (!pSlot->isInfinite()) pSlot->clear();
 	}
 	else if ( getTop().getIndex() == pSlot->getTop().getIndex() &&
-			  (getTop().getInteractType() & InteractionType::Stack) )
+			  (getTop().getInteractType() & 1) ) // 1 == InteractionType.Stack, перенести обработку в питон
 	{
 		__items.append( pSlot->getItems() );
 		if (!pSlot->isInfinite()) pSlot->clear();

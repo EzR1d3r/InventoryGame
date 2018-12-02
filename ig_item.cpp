@@ -23,25 +23,7 @@ void IG_Item::setState(int state)
 
 void IG_Item::interactWith(IG_Item &other)
 {
-	InteractionType it = __interact_type & other.getInteractType();
-	switch (it)
-	{
-		case InteractionType::Volumes:
-			interactAs<InteractionType::Volumes>(other);
-			break;
-		default:
-			break;
-	}
-}
-
-template<InteractionType type> void IG_Item::interactAs(IG_Item &other)
-{
-//	if (other.getState())
-//	{
-//		setState (__state + 1); //через функцию, тк проверка на макс. стейт
-//		other.setState( other.getState() - 1 );
-//	}
 	IG_PyCaller py_caller;
 	py_caller.setPyModule("items_interaction");
-	py_caller.callFunc("IncDec", this, &other);
+	py_caller.callFunc("interact", this, &other);
 }
