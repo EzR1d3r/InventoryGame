@@ -19,7 +19,7 @@ public:
 	void dropEvent( QDropEvent * event );
 	void clear();
 	QVector<IG_Slot*> getSlots();
-public Q_SLOT:
+public Q_SLOTS:
 	void externalChange(const IG_Net_Slot &slot_data);
 Q_SIGNALS:
 	void slotChanged(IG_Slot * pSlot);

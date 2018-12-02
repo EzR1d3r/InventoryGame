@@ -25,7 +25,7 @@ public:
 	void hitLast();
 	void externalChange(const IG_Net_Slot &slot_data);
 	void clear();
-private Q_SLOT:
+private Q_SLOTS:
 	void update();
 private:
 	bool __infinite;

@@ -13,7 +13,7 @@ public:
 	void connectSQLiteDB(QString name);
 	void disconnectSQLiteDB();
 	void loadAllItemsTo (IG_InventoryTable * pTable);
-private Q_SLOT:
+private Q_SLOTS:
 	void query_create_inventory_table (QString name);
 private:
 	QSqlDatabase __data_base;
