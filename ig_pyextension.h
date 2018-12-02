@@ -19,7 +19,6 @@ private:
 
 template <typename T> void IG_PyCaller::callFunc(const char *name, T * pObj1, T * pObj2)
 {
-	qDebug() << "==========";
 	boost::python::object * pPyObj1 = new boost::python::object( boost::python::ptr (pObj1) );
 	boost::python::object * pPyObj2 = new boost::python::object( boost::python::ptr (pObj2) );
 
@@ -33,9 +32,7 @@ template <typename T> void IG_PyCaller::callFunc(const char *name, T * pObj1, T 
 	PyTuple_SetItem (pArgs, 0, pPyObj1->ptr());
 	PyTuple_SetItem (pArgs, 1, pPyObj2->ptr());
 
-	qDebug() << "1: " << pObj1 <<pObj1->getState() << pObj2 << pObj2->getState();
 	pResult = PyObject_CallObject(pFunc, pArgs);
-	qDebug() << "2: " << pObj1 <<pObj1->getState() << pObj2 << pObj2->getState() << pResult;
 
 	Py_XDECREF(pFunc);
 	Py_XDECREF(pArgs);

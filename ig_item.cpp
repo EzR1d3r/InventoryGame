@@ -1,4 +1,5 @@
 #include "ig_pyextension.h"
+#include "ig_utils.h"
 #include "ig_item.h"
 
 IG_Item::IG_Item(const item_params &params)
@@ -24,6 +25,6 @@ void IG_Item::setState(int state)
 void IG_Item::interactWith(IG_Item &other)
 {
 	IG_PyCaller py_caller;
-	py_caller.setPyModule("items_interaction");
-	py_caller.callFunc("interact", this, &other);
+	py_caller.setPyModule(PY_ITEMS_INTERACTION);
+	py_caller.callFunc(PY_FUNC_INTERACT, this, &other);
 }

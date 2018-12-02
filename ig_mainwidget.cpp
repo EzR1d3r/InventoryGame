@@ -28,7 +28,7 @@ IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_M
 	connect(ui->twInventory, ui->twInventory->slotItemChanged, this, playSnd);
 
 //	QString dbPath = QDir(QCoreApplication::applicationDirPath() + "/../..").absolutePath() + "/sqlite/inv_game.sqlite";
-	db.connectSQLiteDB( IG_Utils::absPath( DB_PATH ) );
+	db.connectSQLiteDB( IG_Utils::absPathFromLocal( DB_PATH ) );
 	db.loadAllItemsTo( ui->twStore );
 
 //	IG_PyCaller py_caller;

@@ -1,5 +1,5 @@
 #include "ig_pyextension.h"
-#include <QDebug>
+#include "ig_utils.h"
 
 
 template<> void IG_PyCaller::init_py_class<IG_Item>()
@@ -10,15 +10,17 @@ template<> void IG_PyCaller::init_py_class<IG_Item>()
 			.def("setState", &IG_Item::setState)
 			.def("getState", &IG_Item::getState)
 			.def("getInteractType", &IG_Item::getInteractType);
-	qDebug() << "called";
 	already_called = true;
 }
 
 IG_PyCaller::IG_PyCaller()
 {
 	Py_Initialize();
-	PyRun_SimpleString("import sys\n"
-						"sys.path.append('f:/Projects/InventoryGame/pyscripts/')\n");
+	QString py_ext_path( IG_Utils::absPathFromLocal(PY_SCRIPTS_PATH) );
+	QString py_exec_string = QString("import sys\n"
+			"sys.path.append('%1')\n").arg(py_ext_path);
+
+	PyRun_SimpleString( py_exec_string.toStdString().c_str() );
 
 	init_py_class<IG_Item>();
 }
