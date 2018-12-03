@@ -13,16 +13,17 @@ void IG_Slot::clear()
 	update();
 }
 
-void IG_Slot::tryStack(IG_Slot *pSlot)
+void IG_Slot::collisionWith(IG_Slot *pSlot)
 {
 	if (pSlot == this) return;
+
+
 	if ( __items.isEmpty() )
 	{
 		__items.append( pSlot->getItems() );
 		if (!pSlot->isInfinite()) pSlot->clear();
 	}
-	else if ( getTop().getIndex() == pSlot->getTop().getIndex() &&
-			  (getTop().getInteractType() & 1) ) // 1 == InteractionType.Stack, перенести обработку в питон
+	else if ( getTop().checkStackable(pSlot->getTop()) )
 	{
 		__items.append( pSlot->getItems() );
 		if (!pSlot->isInfinite()) pSlot->clear();
@@ -32,6 +33,8 @@ void IG_Slot::tryStack(IG_Slot *pSlot)
 		getTop().interactWith( pSlot->getTop() );
 		pSlot->update();
 	}
+
+
 	update();
 }
 

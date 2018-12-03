@@ -7,6 +7,7 @@
 //Модули питона и их функции
 #define PY_ITEMS_INTERACTION	"items_interaction"
 #define PY_FUNC_INTERACT		"interact"
+#define PY_FUNC_CHECK_STACKABLE	"check_stackable"
 
 class QString;
 

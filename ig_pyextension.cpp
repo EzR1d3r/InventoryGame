@@ -9,8 +9,22 @@ template<> void IG_PyCaller::init_py_class<IG_Item>()
 	boost::python::class_<IG_Item> ("IG_Item")
 			.def("setState", &IG_Item::setState)
 			.def("getState", &IG_Item::getState)
-			.def("getInteractType", &IG_Item::getInteractType);
+			.def("getInteractType", &IG_Item::getInteractType)
+			.def("getIndex", &IG_Item::getIndex);
 	already_called = true;
+}
+
+template<> void IG_PyCaller::PyObj_As<void>(PyObject * pObj, bool return_default)
+{
+	Q_UNUSED(pObj);
+	Q_UNUSED(return_default);
+}
+template<> bool IG_PyCaller::PyObj_As<bool>(PyObject * pObj, bool return_default)
+{
+	if (return_default)
+		return false;
+	else
+		return pObj == Py_True ? true : false;
 }
 
 IG_PyCaller::IG_PyCaller()

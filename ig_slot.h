@@ -19,7 +19,7 @@ public:
 	inline QString getTopSnd () const { return __items.count() ? __items.top().getSnd() : "" ; }
 	inline bool isInfinite() const { return __infinite;}
 
-	void tryStack (IG_Slot *pSlot );
+	void collisionWith (IG_Slot *pSlot );
 	inline void setInfinite(bool infinite){ __infinite = infinite;}
 	void addItem(const IG_Item& item);
 	void hitLast();

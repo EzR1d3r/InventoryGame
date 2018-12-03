@@ -26,5 +26,12 @@ void IG_Item::interactWith(IG_Item &other)
 {
 	IG_PyCaller py_caller;
 	py_caller.setPyModule(PY_ITEMS_INTERACTION);
-	py_caller.callFunc(PY_FUNC_INTERACT, this, &other);
+	py_caller.callFunc<IG_Item>(PY_FUNC_INTERACT, this, &other);
+}
+
+bool IG_Item::checkStackable(IG_Item &other)
+{
+	IG_PyCaller py_caller;
+	py_caller.setPyModule(PY_ITEMS_INTERACTION);
+	return py_caller.callFunc<IG_Item, bool>(PY_FUNC_CHECK_STACKABLE, this, &other);
 }

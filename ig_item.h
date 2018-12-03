@@ -29,6 +29,7 @@ class IG_Item
 		inline int getInteractType() const {return __interact_type;}
 		void setState(int state);
 		void interactWith (IG_Item &other);
+		bool checkStackable (IG_Item &other);
 
 	private:
 		uint __idx;

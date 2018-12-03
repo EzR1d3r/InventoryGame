@@ -7,6 +7,13 @@ class InteractionType(IntFlag):
 	Stack    = 0x1
 	Volumes  = 0x2
 
+def check_stackable(self, other):
+	if (self.getIndex() == other.getIndex() and
+		self.getInteractType() & InteractionType.Stack == InteractionType.Stack):
+		return True
+	else:
+		return False
+
 #функция, вызываемая непосредственно из С++,
 # выбирает какой конкретно метод взаимодействия выбрать
 def interact(self, other):

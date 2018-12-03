@@ -12,12 +12,13 @@ public:
 	~IG_PyCaller();
 	template <typename T>void init_py_class();
 	void setPyModule (const char * name);
-	template <typename T> void callFunc(const char *name, T * pObj1, T * pObj2);
+	template<typename T> T PyObj_As(PyObject* pObj, bool return_default = false);
+	template <typename T, typename Res = void> Res callFunc(const char *name, T * pObj1, T * pObj2);
 private:
 	PyObject* __Py_module = nullptr;
 };
 
-template <typename T> void IG_PyCaller::callFunc(const char *name, T * pObj1, T * pObj2)
+template <typename T, typename Res> Res IG_PyCaller::callFunc(const char *name, T * pObj1, T * pObj2)
 {
 	boost::python::object * pPyObj1 = new boost::python::object( boost::python::ptr (pObj1) );
 	boost::python::object * pPyObj2 = new boost::python::object( boost::python::ptr (pObj2) );
@@ -25,7 +26,10 @@ template <typename T> void IG_PyCaller::callFunc(const char *name, T * pObj1, T 
 	PyObject* pFunc   = nullptr;
 	PyObject *pArgs   = nullptr;
 	PyObject *pResult = nullptr;
-	if (__Py_module == nullptr) return;
+
+	//возврат значения "по умолчанию", если модуль не найден
+	//не во всех случаях будет корректно, но пока устраивает
+	if (__Py_module == nullptr) return PyObj_As<Res>(pResult, true);
 
 	pFunc = PyObject_GetAttrString(__Py_module, name);
 	pArgs = PyTuple_New(2);
@@ -37,4 +41,7 @@ template <typename T> void IG_PyCaller::callFunc(const char *name, T * pObj1, T 
 	Py_XDECREF(pFunc);
 	Py_XDECREF(pArgs);
 	Py_XDECREF(pResult);
+
+	return PyObj_As<Res>(pResult);
 }
+
