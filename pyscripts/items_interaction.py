@@ -3,9 +3,15 @@
 from enum import IntFlag
 
 class InteractionType(IntFlag):
-	NoneType = 0x0
-	Stack    = 0x1
-	Volumes  = 0x2
+	NoneType     = 0
+	Stack        = 1
+	Decrement    = 2
+	Increment    = 4
+	Destructable = 8
+	Destroer     = 16
+	Volumes      = 32
+
+IT = InteractionType #для сокращения
 
 def check_stackable(self, other):
 	if (self.getIndex() == other.getIndex() and
@@ -17,16 +23,22 @@ def check_stackable(self, other):
 #функция, вызываемая непосредственно из С++,
 # выбирает какой конкретно метод взаимодействия выбрать
 def interact(self, other):
-	key = self.getInteractType() & other.getInteractType()
+	key = self.getInteractType() | other.getInteractType()
+	print(self.getInteractType(), other.getInteractType(), key)
 	interactFunc = interactFuncsDict.get(key)
 	if interactFunc is not None: interactFunc(self, other)
 
 #список функций взаимодействий
-def IncrDecr(self, other):
+def Incr_Decr(self, other):
 	if other.getState():
 		self.setState( self.getState() + 1 )
 		other.setState( other.getState() - 1 )
 
+def Destroy(self, other):
+	if other.getInteractType() == InteractionType.Destroer:
+		self.setState(-1)
+
 interactFuncsDict = {
-						InteractionType.Volumes : IncrDecr
+						IT.Volumes				 : Incr_Decr,
+						IT.Volumes | IT.Destroer : Destroy,
 					}

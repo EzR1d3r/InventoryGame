@@ -34,6 +34,13 @@ void IG_Slot::collisionWith(IG_Slot *pSlot)
 		pSlot->update();
 	}
 
+	QString snd = getTop().getSnd ();
+	Q_EMIT __parent->slotItemChanged(this, snd);
+
+	if (getTop().getState() == -1)
+	{
+		__items.pop();
+	}
 
 	update();
 }
