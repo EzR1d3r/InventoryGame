@@ -24,7 +24,6 @@ def check_stackable(self, other):
 # выбирает какой конкретно метод взаимодействия выбрать
 def interact(self, other):
 	key = self.getInteractType() | other.getInteractType()
-	print(self.getInteractType(), other.getInteractType(), key)
 	interactFunc = interactFuncsDict.get(key)
 	if interactFunc is not None: interactFunc(self, other)
 

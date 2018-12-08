@@ -4,8 +4,6 @@
 #include <ig_inventorytable.h>
 #include "ig_network.h"
 
-#define HOST_ADDRESS QHostAddress::AnyIPv4
-
 // ==================================== Server =======================================
 void IG_Server::startServer()
 {
@@ -81,6 +79,10 @@ IG_Client::IG_Client()
 
 	connect(__socket, __socket->readyRead, this, socketRead);
 	connect(__socket, __socket->disconnected, this, socketDisconnected);
+	connect( __socket, __socket->connected, this, socketConnected);
+
+	connect( __socket, __socket->connected, this, connected);
+	connect(__socket, __socket->disconnected, this, disconnected);
 }
 
 void IG_Client::connectToHost(const QString &hostName, quint16 port)
@@ -108,6 +110,11 @@ void IG_Client::socketDisconnected()
 	qDebug() << "Client: Socket disconnected";
 }
 
+void IG_Client::socketConnected()
+{
+	qDebug() << "Client: Socket connected";
+}
+
 
 //================================ NetworkManager ===================================
 
@@ -115,6 +122,9 @@ IG_NetworkManager::IG_NetworkManager(IG_InventoryTable *inventory):__inventory(i
 {
 	__server = new IG_Server();
 	__client = new IG_Client();
+
+	connect(__client, __client->disconnected, this, clientDisconnected);
+	connect( __client, __client->connected, this, clientConnected);
 }
 
 IG_NetworkManager::~IG_NetworkManager()

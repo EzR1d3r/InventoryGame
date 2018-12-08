@@ -4,6 +4,7 @@
 #include <QQueue>
 #include "ig_consts.h"
 
+#define HOST_ADDRESS QHostAddress::AnyIPv4
 #define DEF_PORT 1313
 
 class IG_Slot;
@@ -43,9 +44,12 @@ class IG_Client: public QObject
 		void disconnectFromHost();
 	Q_SIGNALS:
 		void newData(QByteArray data);
+		void connected();
+		void disconnected();
 	private:
 		void socketRead();
 		void socketDisconnected();
+		void socketConnected();
 		QTcpSocket * __socket = nullptr;
 };
 
@@ -61,6 +65,9 @@ public:
 
 	void connectToHost(const QString &hostName, quint16 port = DEF_PORT);
 	void disconnectFromHost();
+Q_SIGNALS:
+	void clientConnected();
+	void clientDisconnected();
 public Q_SLOTS:
 	void sendSlotToAllClients(IG_Slot * pSlot);
 private Q_SLOTS:

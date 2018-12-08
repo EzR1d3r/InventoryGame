@@ -27,22 +27,11 @@ IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_M
 	connect(__main_menu, __main_menu->close_mm, this, setEnabled);
 	connect(ui->twInventory, ui->twInventory->slotItemChanged, this, playSnd);
 
-//	QString dbPath = QDir(QCoreApplication::applicationDirPath() + "/../..").absolutePath() + "/sqlite/inv_game.sqlite";
+	connect(__net_manager, __net_manager->clientConnected, this, clientConnected);
+	connect(__net_manager, __net_manager->clientDisconnected, this, clientDisconnected);
+
 	db.connectSQLiteDB( IG_Utils::absPathFromLocal( DB_PATH ) );
 	db.loadAllItemsTo( ui->twStore );
-
-//	IG_PyCaller py_caller;
-//	py_caller.setPyModule("items_interaction");
-//	int res = py_caller.callFunc("multi", 1, 100);
-//	this->setWindowTitle( QString::number(res) );
-
-//	IG_PyCaller py_caller;
-//	py_caller.setPyModule("items_interaction");
-//	IG_Item * pI1 = new IG_Item();
-//	IG_Item * pI2 = new IG_Item();
-//	qDebug() << "++++++++++++++++++++" << pI1->getState() << pI2->getState();
-
-//	py_caller.callFunc("multi", pI1, pI2);
 }
 
 IG_MainWidget::~IG_MainWidget()
@@ -106,6 +95,16 @@ void IG_MainWidget::on_pbConnect_clicked()
 {
 	QStringList addr = ui->leHostAddress->text().split(":");
 	__net_manager->connectToHost(addr[0], addr[1].toUShort());
+}
+
+void IG_MainWidget::clientConnected()
+{
+	ui->lbStatus->setText("Connected");
+}
+
+void IG_MainWidget::clientDisconnected()
+{
+	ui->lbStatus->setText("Disconnected");
 }
 
 void IG_MainWidget::show()
