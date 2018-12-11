@@ -1,5 +1,6 @@
 #include "ig_slot.h"
 #include "ig_inventorytable.h"
+#include "ig_utils.h"
 
 IG_Slot::IG_Slot( IG_InventoryTable * parent ):
 	__infinite(false), __parent (parent)
@@ -74,8 +75,8 @@ void IG_Slot::externalChange(const IG_Net_Slot& slot_data)
 	__items.clear();
 	setText( QString::number( slot_data.count ) );
 	setTextAlignment (Qt::AlignRight | Qt::AlignBottom);
-	setIcon( QIcon() );
-	setIcon( QIcon( slot_data.img_path) );
+	QString img_path = IG_Utils::findImg( slot_data.img_path );
+	setIcon( QIcon( img_path) );
 	Q_EMIT __parent->slotItemChanged(this, slot_data.snd_path);
 }
 
@@ -84,7 +85,11 @@ void IG_Slot::update()
 	setText( QString::number( getCount() ) );
 	setTextAlignment (Qt::AlignRight | Qt::AlignBottom);
 	setIcon( QIcon() );
-	if ( getCount() ) setIcon( QIcon( __items.top().getImg()) );
+	if ( getCount() )
+	{
+		QString img_path = IG_Utils::findImg( __items.top().getImg() );
+		setIcon( QIcon( img_path) );
+	}
 	Q_EMIT __parent->slotChanged( this );
 }
 

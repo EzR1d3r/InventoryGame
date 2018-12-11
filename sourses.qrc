@@ -17,6 +17,5 @@
         <file>snds/hydro_1.wav</file>
         <file>snds/vine_glass_0.wav</file>
         <file>images/banana.png</file>
-        <file>images/hammer.png</file>
     </qresource>
 </RCC>

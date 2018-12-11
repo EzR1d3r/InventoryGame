@@ -65,7 +65,7 @@ void IG_MainWidget::new_game(NetworkRole role)
 void IG_MainWidget::playSnd(IG_Slot *pSlot, QString snd)
 {
 	Q_UNUSED( pSlot );
-	QSound::play( snd );
+	QSound::play( IG_Utils::findSnd( snd ) );
 }
 
 void IG_MainWidget::becomeServer()
