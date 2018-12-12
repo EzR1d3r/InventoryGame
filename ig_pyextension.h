@@ -1,5 +1,5 @@
 #pragma once
-//#include <cmath> //этот инклуд нужен для корректной сборки, перед Python.h
+#include <cmath> //этот инклуд нужен для корректной сборки, перед Python.h
 #include <Python.h>
 #include <boost/python/ptr.hpp>
 #include <boost/python.hpp>
