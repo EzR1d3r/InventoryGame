@@ -1,6 +1,6 @@
 #include "ig_MainMenu.h"
 #include "ui_ig_mainmenu.h"
-#include "ig_MainWidget.h"
+#include "ig_mainwidget.h"
 
 IG_MainMenu::IG_MainMenu(QWidget *parent): QWidget(parent), ui(new Ui::ig_MainMenu)
 {

@@ -28,7 +28,7 @@ SOURCES += \
     ig_slot.cpp \
     ig_item.cpp \
     ig_databasemanager.cpp \
-    ig_MainWidget.cpp \
+    ig_mainwidget.cpp \
     ig_MainMenu.cpp \
     ig_network.cpp \
     ig_utils.cpp \
@@ -39,7 +39,7 @@ HEADERS += \
     ig_slot.h \
     ig_item.h \
     ig_databasemanager.h \
-    ig_MainWidget.h \
+    ig_mainwidget.h \
     ig_MainMenu.h \
     ig_consts.h \
     ig_network.h \
@@ -61,18 +61,9 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-win32:CONFIG(release, debug|release): LIBS += -L'C:/Program Files (x86)/Python37-32/libs/' -lpython37
-else:win32:CONFIG(debug, debug|release): LIBS += -L'C:/Program Files (x86)/Python37-32/libs/' -lpython37
-
-INCLUDEPATH += 'C:/Program Files (x86)/Python37-32/include'
-DEPENDPATH += 'C:/Program Files (x86)/Python37-32/include'
+INCLUDEPATH += '/usr/include/python3.6/'
 
 CONFIG += no_keywords
 
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../boost/boost_1_68_0/mingw530_32/lib/ -llibboost_python37-mgw53-mt-d-x32-1_68.dll
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../boost/boost_1_68_0/mingw530_32/lib/ -llibboost_python37-mgw53-mt-d-x32-1_68.dll
-else:unix:!macx: LIBS += -L$$PWD/../boost/boost_1_68_0/mingw530_32/lib/ -llibboost_python37-mgw53-mt-d-x32-1_68.dll
-
-INCLUDEPATH += $$PWD/../boost/boost_1_68_0/mingw530_32/include
-DEPENDPATH += $$PWD/../boost/boost_1_68_0/mingw530_32/include
+LIBS += -L'/usr/lib/python3.6/config-3.6m-x86_64-linux-gnu/' -lpython3.6
+LIBS += -L'/usr/lib/x86_64-linux-gnu/' -lboost_python3
