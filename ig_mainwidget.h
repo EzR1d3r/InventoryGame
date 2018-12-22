@@ -30,8 +30,10 @@ private Q_SLOTS:
 
 	void on_pbDisconnect_clicked();
 	void on_pbConnect_clicked();
+
+    void exit_game(int i);
 private:
-	void clientConnected();
+    void clientConnected();
 	void clientDisconnected();
 	IG_DataBaseManager db;
 	Ui::IG_MainWidget *ui;

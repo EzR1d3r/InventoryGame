@@ -3,7 +3,7 @@
 #include <QSound>
 #include <QDir>
 #include "ui_ig_mainwidget.h"
-#include "ig_MainWidget.h"
+#include "ig_mainwidget.h"
 #include <ig_MainMenu.h>
 #include <ig_item.h>
 #include <ig_slot.h>
@@ -22,13 +22,13 @@ IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_M
 	//Main menu widget
 	__main_menu = new IG_MainMenu();
 	__net_manager = new IG_NetworkManager(ui->twInventory);
-	connect(__main_menu, __main_menu->exit_game, this, exit);
-	connect(__main_menu, __main_menu->new_game, this, new_game);
-	connect(__main_menu, __main_menu->close_mm, this, setEnabled);
-	connect(ui->twInventory, ui->twInventory->slotItemChanged, this, playSnd);
+    connect(__main_menu, &IG_MainMenu::exit_game, this, &IG_MainWidget::exit_game);
+    connect(__main_menu, &IG_MainMenu::new_game, this, &IG_MainWidget::new_game );
+    connect(__main_menu, &IG_MainMenu::close_mm, this, &IG_MainWidget::setEnabled);
+    connect(ui->twInventory, &IG_InventoryTable::slotItemChanged, this, &IG_MainWidget::playSnd);
 
-	connect(__net_manager, __net_manager->clientConnected, this, clientConnected);
-	connect(__net_manager, __net_manager->clientDisconnected, this, clientDisconnected);
+    connect(__net_manager, &IG_NetworkManager::clientConnected, this, &IG_MainWidget::clientConnected);
+    connect(__net_manager, &IG_NetworkManager::clientDisconnected, this, &IG_MainWidget::clientDisconnected);
 
 	db.connectSQLiteDB( IG_Utils::absPathFromLocal( DB_PATH ) );
 	db.loadAllItemsTo( ui->twStore );
@@ -94,7 +94,12 @@ void IG_MainWidget::on_pbDisconnect_clicked()
 void IG_MainWidget::on_pbConnect_clicked()
 {
 	QStringList addr = ui->leHostAddress->text().split(":");
-	__net_manager->connectToHost(addr[0], addr[1].toUShort());
+    __net_manager->connectToHost(addr[0], addr[1].toUShort());
+}
+
+void IG_MainWidget::exit_game(int i)
+{
+    exit(i);
 }
 
 void IG_MainWidget::clientConnected()

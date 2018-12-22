@@ -29,8 +29,8 @@ void IG_Server::incomingConnection(qintptr socketDescriptor)
 	socket->setSocketDescriptor( socketDescriptor );
 	__sockets << socket;
 
-	connect(socket, socket->readyRead, this, socketRead);
-	connect(socket, socket->disconnected, this, socketDisconnected);
+    connect(socket, &QTcpSocket::readyRead, this, &IG_Server::socketRead);
+    connect(socket, &QTcpSocket::disconnected, this, &IG_Server::socketDisconnected);
 
 	__queue_sockets.enqueue(socket);
 }
@@ -77,12 +77,12 @@ IG_Client::IG_Client()
 {
 	__socket = new QTcpSocket(this);
 
-	connect(__socket, __socket->readyRead, this, socketRead);
-	connect(__socket, __socket->disconnected, this, socketDisconnected);
-	connect( __socket, __socket->connected, this, socketConnected);
+    connect(__socket, &QTcpSocket::readyRead, this, &IG_Client::socketRead);
+    connect(__socket, &QTcpSocket::disconnected, this, &IG_Client::socketDisconnected);
+    connect( __socket,&QTcpSocket::connected, this, &IG_Client::socketConnected);
 
-	connect( __socket, __socket->connected, this, connected);
-	connect(__socket, __socket->disconnected, this, disconnected);
+    connect( __socket,&QTcpSocket::connected, this, &IG_Client::connected);
+    connect(__socket, &QTcpSocket::disconnected, this, &IG_Client::disconnected);
 }
 
 void IG_Client::connectToHost(const QString &hostName, quint16 port)
@@ -123,8 +123,8 @@ IG_NetworkManager::IG_NetworkManager(IG_InventoryTable *inventory):__inventory(i
 	__server = new IG_Server();
 	__client = new IG_Client();
 
-	connect(__client, __client->disconnected, this, clientDisconnected);
-	connect( __client, __client->connected, this, clientConnected);
+    connect(__client,  &IG_Client::disconnected, this, &IG_NetworkManager::clientDisconnected);
+    connect( __client, &IG_Client::connected, this, &IG_NetworkManager::clientConnected);
 }
 
 IG_NetworkManager::~IG_NetworkManager()
@@ -166,13 +166,11 @@ void IG_NetworkManager::becomeServer()
 {
 	if (__network_role == NetworkRole::Server) return;
 	//если ранее был клиентом
-	QObject::disconnect(__client, __client->newData, nullptr, nullptr);
+    QObject::disconnect(__client, &IG_Client::newData, nullptr, nullptr);
 
 	//сервер
-	QObject::connect( __inventory, __inventory->slotChanged,
-					  this, this->sendSlotToAllClients);
-	QObject::connect( __server, __server->newConnection,
-					  this, this->sendSlotsToNewClient);
+    QObject::connect( __inventory, &IG_InventoryTable::slotChanged, this, &IG_NetworkManager::sendSlotToAllClients );
+    QObject::connect( __server, &IG_Server::newConnection, this, &IG_NetworkManager::sendSlotsToNewClient);
 
 	__server->startServer();
 	__network_role = NetworkRole::Server;
@@ -182,14 +180,14 @@ void IG_NetworkManager::becomeClient()
 {
 	if (__network_role == NetworkRole::Client) return;
 	//если ранее был сервером
-	QObject::disconnect( __inventory, __inventory->slotChanged,
-					  nullptr, nullptr);
-	QObject::disconnect( __server, __server->newConnection,
+    QObject::disconnect( __inventory, &IG_InventoryTable::slotChanged,
+                      nullptr, nullptr);
+    QObject::disconnect( __server, &IG_Server::newConnection,
 					  nullptr, nullptr);
 	__server->stopServer();
 
 	//клиент
-	QObject::connect(__client, __client->newData, this, this->unpackData);
+    QObject::connect(__client, &IG_Client::newData, this, &IG_NetworkManager::unpackData);
 	__network_role = NetworkRole::Client;
 }
 

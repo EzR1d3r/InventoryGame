@@ -28,7 +28,7 @@ SOURCES += \
     ig_slot.cpp \
     ig_item.cpp \
     ig_databasemanager.cpp \
-    ig_MainWidget.cpp \
+    ig_mainwidget.cpp \
     ig_MainMenu.cpp \
     ig_network.cpp \
     ig_utils.cpp \
@@ -39,7 +39,7 @@ HEADERS += \
     ig_slot.h \
     ig_item.h \
     ig_databasemanager.h \
-    ig_MainWidget.h \
+    ig_mainwidget.h \
     ig_MainMenu.h \
     ig_consts.h \
     ig_network.h \
