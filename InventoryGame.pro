@@ -56,23 +56,18 @@ RESOURCES += \
 DISTFILES += \
     pyscripts/items_interaction.py
 
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
-
-win32:CONFIG(release, debug|release): LIBS += -L'C:/Program Files (x86)/Python37-32/libs/' -lpython37
-else:win32:CONFIG(debug, debug|release): LIBS += -L'C:/Program Files (x86)/Python37-32/libs/' -lpython37
-
-INCLUDEPATH += 'C:/Program Files (x86)/Python37-32/include'
-DEPENDPATH += 'C:/Program Files (x86)/Python37-32/include'
-
 CONFIG += no_keywords
 
+win32:debug|win32:release{
+    INCLUDEPATH += 'C:/Program Files (x86)/Python37-32/include'\
+                    $$PWD/../boost/boost_1_68_0/mingw530_32/include
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../boost/boost_1_68_0/mingw530_32/lib/ -llibboost_python37-mgw53-mt-d-x32-1_68.dll
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../boost/boost_1_68_0/mingw530_32/lib/ -llibboost_python37-mgw53-mt-d-x32-1_68.dll
-else:unix:!macx: LIBS += -L$$PWD/../boost/boost_1_68_0/mingw530_32/lib/ -llibboost_python37-mgw53-mt-d-x32-1_68.dll
+    LIBS += -L$$PWD/../boost/boost_1_68_0/mingw530_32/lib/ -llibboost_python37-mgw53-mt-d-x32-1_68.dll
+    LIBS += -L'C:/Program Files (x86)/Python37-32/libs/' -lpython37
+}
 
-INCLUDEPATH += $$PWD/../boost/boost_1_68_0/mingw530_32/include
-DEPENDPATH += $$PWD/../boost/boost_1_68_0/mingw530_32/include
+unix:debug|unix:release{
+    INCLUDEPATH += '/usr/include/python3.6/'
+    LIBS += -L'/usr/lib/python3.6/config-3.6m-x86_64-linux-gnu/' -lpython3.6
+    LIBS += -L'/usr/lib/x86_64-linux-gnu/' -lboost_python3
+}
