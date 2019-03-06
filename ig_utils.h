@@ -16,7 +16,10 @@
 
 // признак дебаг-сборки, по нему составляются абсолютные пути -
 // либо папка проекта либо корень сборки
-#define DEBUG 1
+
+#ifndef QT_NO_DEBUG //release
+	#define DEBUG
+#endif
 
 namespace IG_Utils
 {

@@ -5,7 +5,7 @@
 #include "ig_consts.h"
 
 #define HOST_ADDRESS QHostAddress::AnyIPv4
-#define DEF_PORT 1313
+#define DEF_PORT 13133
 
 class IG_Slot;
 class IG_Net_Slot;

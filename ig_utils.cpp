@@ -10,7 +10,7 @@ using namespace IG_Utils;
 QString IG_Utils::absPathFromLocal(QString localPath)
 {
 	QDir app_dir = QDir(QCoreApplication::applicationDirPath());
-#if DEBUG
+#ifdef DEBUG
 	QString absPath = app_dir.absolutePath()  + "/../.." + localPath;
 #else
 	QString absPath = app_dir.absolutePath() + localPath;

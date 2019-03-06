@@ -32,6 +32,8 @@ IG_MainWidget::IG_MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::IG_M
 
 	db.connectSQLiteDB( IG_Utils::absPathFromLocal( DB_PATH ) );
 	db.loadAllItemsTo( ui->twStore );
+
+	ui->leHostAddress->setText( "localhost:" + QString::number( DEF_PORT ));
 }
 
 IG_MainWidget::~IG_MainWidget()
@@ -99,7 +101,7 @@ void IG_MainWidget::on_pbConnect_clicked()
 
 void IG_MainWidget::exit_game(int i)
 {
-    exit(i);
+	exit(i);
 }
 
 void IG_MainWidget::clientConnected()
